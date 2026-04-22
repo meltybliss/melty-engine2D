@@ -131,14 +131,19 @@
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="third_party\glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Color.h" />
+    <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\IScene.h" />
     <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer2D.h" />
+    <ClInclude Include="include\RendererComp.h" />
+    <ClInclude Include="include\SceneManager.h" />
     <ClInclude Include="include\Vec2.h" />
     <ClInclude Include="third_party\glad\glad.h" />
     <ClInclude Include="third_party\GLFW\glfw3.h" />
