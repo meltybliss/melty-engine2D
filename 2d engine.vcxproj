@@ -138,12 +138,14 @@
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\IScene.h" />
     <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer2D.h" />
     <ClInclude Include="include\RendererComp.h" />
     <ClInclude Include="include\SceneManager.h" />
+    <ClInclude Include="include\Transform.h" />
     <ClInclude Include="include\Vec2.h" />
     <ClInclude Include="third_party\glad\glad.h" />
     <ClInclude Include="third_party\GLFW\glfw3.h" />
