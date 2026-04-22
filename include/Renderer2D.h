@@ -36,6 +36,9 @@ private:
 
 	std::vector<RenderCommand> renderCommands;
 
+	GLint screenSizeLoc;
+	GLint colorLoc;
+
 
 	static std::string ReadFile(const std::string& path);
 	static GLuint CompileShader(GLenum type, const std::string& source, const std::string& debugName);

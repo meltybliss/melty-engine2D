@@ -34,6 +34,7 @@ struct RectCommand {
 
 struct RenderCommand {
 	CommandType type;
+	bool useColor = true;
 	int layer = 0;
 
 	union {

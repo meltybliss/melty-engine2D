@@ -91,21 +91,21 @@ GLuint Renderer2D::CreateShaderProgram(const std::string& vertPath, const std::s
 Renderer2D::Renderer2D() {
 
 	//color shader
-	CreateShaderProgram("resources/shaders/color2d.vert", "resources/shaders/color2d.frag");
+	colorShaderProgram = CreateShaderProgram("resources/shaders/color2d.vert", "resources/shaders/color2d.frag");
 
 	glGenVertexArrays(1, &colorVAO);
 	glGenBuffers(1, &colorVBO);
 
-	//*****colorShader‚ªÅ‰‚É‘I‘ð‚³‚ê‚Ä‚¢‚Ä‚Ù‚µ‚¢‚Ì‚Åcolor bind‚ªÅŒã‚É—ˆ‚é‚æ‚¤‚É‚·‚é‚æ‚¤‚É
 	glBindVertexArray(colorVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6, nullptr, GL_DYNAMIC_DRAW);
+
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 
-
-	curProgram = colorShaderProgram;
-	glUseProgram(curProgram);
+	this->screenSizeLoc = glGetUniformLocation(colorShaderProgram, "uScreenSize");
+	this->colorLoc = glGetUniformLocation(colorShaderProgram, "uColor");
 }
 
 
@@ -118,6 +118,7 @@ void Renderer2D::SubmitTriangle(const Vec2& a, const Vec2& b, const Vec2& c, con
 
 	RenderCommand cmd{};
 	cmd.type = CommandType::Triangle;
+	cmd.useColor = true;
 	cmd.layer = layer;
 	cmd.triangle.color = color;
 	cmd.triangle.vertices = vertices;
@@ -139,6 +140,7 @@ void Renderer2D::SubmitQuad(const Vec2& a, const Vec2& b, const Vec2& c, const V
 
 	RenderCommand cmd{};
 	cmd.type = CommandType::Quad;
+	cmd.useColor = true;
 	cmd.layer = layer;
 	cmd.quad.color = color;
 	cmd.quad.vertices = vertices;
@@ -152,6 +154,7 @@ void Renderer2D::SubmitRect(float x, float y, float w, float h, const Color3& co
 
 	RenderCommand cmd{};
 	cmd.type = CommandType::Rect;
+	cmd.useColor = true;
 	cmd.layer = layer;
 	cmd.rect.x = x;
 	cmd.rect.y = y;
@@ -178,28 +181,29 @@ void Renderer2D::EndFrame() {
 		return a.layer < b.layer;
 	});
 
+	//flush 
 	for (auto& cmd : renderCommands) {
+
+		if (cmd.useColor) {
+			if (curProgram != colorShaderProgram) {
+
+				curProgram = colorShaderProgram;
+				glUseProgram(colorShaderProgram);
+
+				glBindVertexArray(colorVAO);
+				glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+			}
+
+		}
+
 		switch (cmd.type) {
+
 
 			case CommandType::Triangle: {
 
-				if (curProgram != colorShaderProgram) {
-
-					glUseProgram(colorShaderProgram);
-
-				}
-
-				GLint screenSizeLoc = glGetUniformLocation(colorShaderProgram, "uScreenSize");
-				GLint colorLoc = glGetUniformLocation(colorShaderProgram, "uColor");
-
+			
 				glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
 				glUniform3f(colorLoc, cmd.triangle.color.r, cmd.triangle.color.g, cmd.triangle.color.b);
-
-
-				if (curProgram != colorShaderProgram) {
-					curProgram = colorShaderProgram;
-					glBindVertexArray(colorVAO);
-				}
 
 
 				glBufferData(GL_ARRAY_BUFFER, sizeof(cmd.triangle.vertices), cmd.triangle.vertices.data(), GL_DYNAMIC_DRAW);
@@ -210,22 +214,11 @@ void Renderer2D::EndFrame() {
 
 
 			case CommandType::Quad: {
-
-				if (curProgram != colorShaderProgram) {
-					glUseProgram(colorShaderProgram);
-				}
-
-				GLint screenSizeLoc = glGetUniformLocation(colorShaderProgram, "uScreenSize");
-				GLint colorLoc = glGetUniformLocation(colorShaderProgram, "uColor");
-
+			
 				glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
 				glUniform3f(colorLoc, cmd.quad.color.r, cmd.quad.color.g, cmd.quad.color.b);
 
-				if (curProgram != colorShaderProgram) {
-					curProgram = colorShaderProgram;
-					glBindVertexArray(colorVAO);
-				}
-
+				
 				auto& v = cmd.quad.vertices;
 
 
@@ -256,20 +249,10 @@ void Renderer2D::EndFrame() {
 
 
 			case CommandType::Rect: {
-				if (curProgram != colorShaderProgram) {
-					glUseProgram(colorShaderProgram);
-				}
-
-				GLint screenSizeLoc = glGetUniformLocation(colorShaderProgram, "uScreenSize");
-				GLint colorLoc = glGetUniformLocation(colorShaderProgram, "uColor");
-
+				
 				glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
 				glUniform3f(colorLoc, cmd.rect.color.r, cmd.rect.color.g, cmd.rect.color.b);
 
-				if (curProgram != colorShaderProgram) {
-					curProgram = colorShaderProgram;
-					glBindVertexArray(colorVAO);
-				}
 
 				auto& r = cmd.rect;
 
