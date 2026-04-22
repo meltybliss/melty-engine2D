@@ -16,6 +16,9 @@
     <Filter Include="third_party">
       <UniqueIdentifier>{0bedaeb0-806e-432e-8554-161d8b5dd50e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{bbea5507-b4b4-401a-8798-47873aa78fb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -53,5 +56,13 @@
     <ClInclude Include="include\Renderer2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\shaders\color2d.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="resources\shaders\color2d.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

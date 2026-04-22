@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 
 class Renderer2D {
 public:
@@ -25,5 +26,7 @@ private:
 	unsigned int spriteShaderProgram = 0;
 
 	static std::string ReadFile(const std::string& path);
-
+	static GLuint CompileShader(GLenum type, const std::string& source, const std::string& debugName);
+	static GLuint LinkProgram(GLuint vertShader, GLuint fragShader, const std::string& debugName);
+	static GLuint CreateShaderProgram(const std::string& vertPath, const std::string& fragPath);
 };
