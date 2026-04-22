@@ -8,6 +8,9 @@ public:
 	Engine(int screenW, int screenH);
 
 	void Run();
+
+	int GetScreenW() const { return m_screenW; }
+	int GetScreenH() const { return m_screenH; }
 private:
 	GLFWwindow* m_window = nullptr;
 	bool running = true;
@@ -20,3 +23,6 @@ private:
 
 
 };
+
+
+extern Engine* gEngine;

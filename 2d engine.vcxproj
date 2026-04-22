@@ -133,8 +133,11 @@
     <ClCompile Include="third_party\glad.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer2D.h" />
+    <ClInclude Include="include\Vec2.h" />
     <ClInclude Include="third_party\glad\glad.h" />
     <ClInclude Include="third_party\GLFW\glfw3.h" />
     <ClInclude Include="third_party\GLFW\glfw3native.h" />

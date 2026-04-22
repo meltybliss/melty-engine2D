@@ -1,11 +1,14 @@
 #pragma once 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "RenderCommand.h"
+#include <vector>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
 #include <iostream>
+#include <algorithm>
 
 class Renderer2D {
 public:
@@ -14,6 +17,10 @@ public:
 
 	void BeginFrame();
 	void EndFrame();
+
+	void SubmitTriangle(const Vec2& a, const Vec2& b, const Vec2& c, const Color3& color, int layer);
+	void SubmitQuad(const Vec2& a, const Vec2& b, const Vec2& c, const Vec2& d, const Color3& color, int layer);
+	void SubmitRect(float x, float y, float w, float h, const Color3& color, int layer);
 
 private:
 
@@ -24,6 +31,11 @@ private:
 	unsigned int spriteVAO = 0;
 	unsigned int spriteVBO = 0;
 	unsigned int spriteShaderProgram = 0;
+
+	unsigned int curProgram = 0;
+
+	std::vector<RenderCommand> renderCommands;
+
 
 	static std::string ReadFile(const std::string& path);
 	static GLuint CompileShader(GLenum type, const std::string& source, const std::string& debugName);

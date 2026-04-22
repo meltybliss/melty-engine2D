@@ -1,7 +1,12 @@
 #include "Engine.h"
 
 
+Engine* gEngine;
+
 Engine::Engine(int screenW, int screenH) : m_screenW(screenW), m_screenH(screenH) {
+
+	gEngine = this;
+
 	if (!glfwInit()) {
 		running = false;
 	}
@@ -15,8 +20,6 @@ Engine::Engine(int screenW, int screenH) : m_screenW(screenW), m_screenH(screenH
 	}
 
 	glEnable(GL_DEPTH_TEST);
-
-	glViewport(0, 0, m_screenW, m_screenH);
 
 
 	lastTime = (float)glfwGetTime();
@@ -35,8 +38,7 @@ void Engine::Run() {
 
 		this->EngineTick(deltaTime);
 
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 
 		//render
 
