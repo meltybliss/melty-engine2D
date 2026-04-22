@@ -129,10 +129,12 @@
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Renderer2D.cpp" />
     <ClCompile Include="third_party\glad.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\Renderer2D.h" />
     <ClInclude Include="third_party\glad\glad.h" />
     <ClInclude Include="third_party\GLFW\glfw3.h" />
     <ClInclude Include="third_party\GLFW\glfw3native.h" />

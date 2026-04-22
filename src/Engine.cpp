@@ -1,12 +1,12 @@
 #include "Engine.h"
 
 
-Engine::Engine() {
+Engine::Engine(int screenW, int screenH) : m_screenW(screenW), m_screenH(screenH) {
 	if (!glfwInit()) {
 		running = false;
 	}
 
-	m_window = glfwCreateWindow(1280, 720, "Engine", nullptr, nullptr);
+	m_window = glfwCreateWindow(m_screenW, m_screenH, "Engine", nullptr, nullptr);
 
 	glfwMakeContextCurrent(m_window);
 
@@ -16,7 +16,7 @@ Engine::Engine() {
 
 	glEnable(GL_DEPTH_TEST);
 
-	glViewport(0, 0, 1280, 720);
+	glViewport(0, 0, m_screenW, m_screenH);
 
 
 	lastTime = (float)glfwGetTime();

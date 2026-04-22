@@ -2,7 +2,7 @@
 
 int main() {
 	
-	Engine engine;//init openGL
+	Engine engine(1280, 720);//init openGL
 
 	engine.Run();
 }
