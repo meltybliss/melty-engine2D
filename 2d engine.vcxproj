@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
     <ClCompile Include="third_party\glad.c" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Engine.h" />
+    <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer2D.h" />
     <ClInclude Include="include\Vec2.h" />

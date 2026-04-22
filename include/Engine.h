@@ -1,6 +1,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-
+#include "Renderer2D.h"
+#include "Input.h"
 
 class Engine {
 public:
@@ -13,6 +14,9 @@ public:
 	int GetScreenH() const { return m_screenH; }
 private:
 	GLFWwindow* m_window = nullptr;
+	Renderer2D renderer;
+	Input input;
+
 	bool running = true;
 	float lastTime = 0;
 

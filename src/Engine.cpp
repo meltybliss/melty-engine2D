@@ -38,9 +38,10 @@ void Engine::Run() {
 
 		this->EngineTick(deltaTime);
 
-		
-
 		//render
+		renderer.BeginFrame();
+
+		renderer.EndFrame();
 
 		glfwSwapBuffers(m_window);
 
@@ -55,5 +56,5 @@ void Engine::Run() {
 
 void Engine::EngineTick(float dt) {
 
-
+	input.Tick(m_window);
 }
