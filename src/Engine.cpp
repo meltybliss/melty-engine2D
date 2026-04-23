@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 
-Engine* gEngine;
+Engine* gEngine = nullptr;
 
 Engine::Engine(int screenW, int screenH) : m_screenW(screenW), m_screenH(screenH) {
 
@@ -40,6 +40,8 @@ void Engine::Run() {
 
 		//render
 		renderer.BeginFrame();
+		
+		sceneM.Render();
 
 		renderer.EndFrame();
 
@@ -57,4 +59,5 @@ void Engine::Run() {
 void Engine::EngineTick(float dt) {
 
 	input.Tick(m_window);
+	sceneM.Tick(dt);
 }

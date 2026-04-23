@@ -1,6 +1,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Renderer2D.h"
+#include "SceneManager.h"
 #include "Input.h"
 
 class Engine {
@@ -18,6 +19,7 @@ private:
 	GLFWwindow* m_window = nullptr;
 	Renderer2D renderer;
 	Input input;
+	SceneManager sceneM;
 
 	bool running = true;
 	float lastTime = 0;
