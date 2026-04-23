@@ -59,3 +59,52 @@ TransformComponent& EntityManager::GetTransform(int entity) {
 int EntityManager::GetAllEntitiesCount() const {
 	return entitiesCount;
 }
+
+
+const char* EntityManager::GetName(int entity) const {
+	if (entity < 0 || entity >= isAlive.size()) return;
+
+	return entity_to_name[entity];
+}
+
+const char* EntityManager::GetTag(int entity) const {
+	if (entity < 0 || entity >= isAlive.size()) return;
+
+	return entity_to_tag[entity];
+}
+
+void EntityManager::SetName(int entity, char* name) {
+	if (name_to_entity.find(name) != name_to_entity.end()) return;
+
+	char* previous = entity_to_name[entity];
+	name_to_entity.erase(previous);
+
+	name_to_entity[name] = entity;
+	entity_to_name[entity] = name;
+}
+
+
+void EntityManager::SetTag(int entity, char* tag) {
+
+	char* previous = entity_to_tag[entity];
+	auto range = tag_to_entity.equal_range(previous);
+
+	for (auto it = range.first; it != range.second; it++) {
+		if (it->second == entity) {
+			tag_to_entity.erase(it);
+			break;
+		}
+	}
+
+	tag_to_entity.insert({ tag, entity });
+	entity_to_tag[entity] = tag;
+}
+
+
+std::optional<int> EntityManager::GetEntityFromName(char* name) {
+	auto it = name_to_entity.find(name);
+	if (it == name_to_entity.end()) return std::nullopt;
+
+	return it->second;
+}
+
