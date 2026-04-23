@@ -8,9 +8,10 @@ public:
 	void Tick(float dt);
 	void Render();
 
-	bool SetCurrentScene(std::unique_ptr<IScene> scene);
+	bool ChangeCurrentScene(std::unique_ptr<IScene> scene);
+	IScene* GetCurrentScene() const { curScene.get(); }
 private:
 
-	std::unique_ptr<IScene> curScene;
+	std::unique_ptr<IScene> curScene = nullptr;
 
 };
