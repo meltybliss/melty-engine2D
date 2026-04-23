@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "EntityManager.h"
 #include <memory>
 
 class IScene {
@@ -10,13 +9,6 @@ public:
 	virtual void Exit() = 0;
 	virtual void Tick(float dt) = 0;
 	virtual void Render() = 0;
-
-
-protected:
-
-	EntityManager entityManager;
-
-private:
 
 
 };

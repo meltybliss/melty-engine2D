@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\BaseScene.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="third_party\glad.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\BaseScene.h" />
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Engine.h" />
