@@ -135,6 +135,7 @@
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\Input.cpp" />
+    <ClCompile Include="src\InputAPI.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
     <ClCompile Include="src\RenderSystem.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="include\EntityManager.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\InputAPI.h" />
     <ClInclude Include="include\IScene.h" />
     <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer2D.h" />

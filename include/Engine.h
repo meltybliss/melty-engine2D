@@ -15,6 +15,7 @@ public:
 	int GetScreenH() const { return m_screenH; }
 
 	Renderer2D& GetRenderer2D() { return renderer; }
+	Input& GetInput() { return input; }
 private:
 	GLFWwindow* m_window = nullptr;
 	Renderer2D renderer;
