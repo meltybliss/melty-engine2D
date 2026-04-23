@@ -24,21 +24,26 @@ public:
 
 	void Tick(float dt);
 
-	void CreateEntity();
+	int CreateEntity();
 	void AddRenderer(int entity);
 	void AddTransform(int entity);
 
+	RendererComponent& GetRenderer(int entity);
+	TransformComponent& GetTransform(int entity);
+
 private:
 
-	//std::vector<int> entity_to_index;//[entityID] = index
+
 	std::vector<uint64_t> entity_to_mask;//[entityID] = bit
 	std::vector<uint8_t> isAlive;//[entityID] = 0 or 1; 0 = dead
+
+	std::vector<int> entity_to_renderer_idx;
+	std::vector<int> entity_to_transform_idx;
 
 	std::vector<RendererComponent> rendererComps;
 	std::vector<TransformComponent> transforms;
 
 	int nextEntityId = 0;
 
-	void PushEntity(int id);
 };
 
