@@ -1,7 +1,7 @@
 #pragma once
 #include "Vec2.h"
 
-struct Transform {
+struct TransformComponent {
 
 	Vec2 position{};
 	Vec2 Scale{};
