@@ -8,15 +8,11 @@
 enum class ComponentBit {
 
 	NONE = 0,
-	RENDERER = 1ULL << 1,
-	TRANSFORM = 1ULL << 2,
+	RENDERER = 1ULL << 0,
+	TRANSFORM = 1ULL << 1,
 
 };
 
-
-inline uint64_t operator|=(uint64_t& baseBit, const ComponentBit& addition) {
-	return static_cast<uint64_t>(baseBit |= static_cast<uint64_t>(addition));
-}
 
 
 class EntityManager {
@@ -30,7 +26,29 @@ public:
 
 	RendererComponent& GetRenderer(int entity);
 	TransformComponent& GetTransform(int entity);
+	
+	int GetAllEntitiesCount() const;
+	uint8_t IsAlive(int entity) const {
+		return isAlive[entity];
+	}
 
+	bool HasTransform(int entity) const {
+		if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+		const uint64_t mask = entity_to_mask[entity];
+		const uint64_t target = static_cast<uint64_t>(ComponentBit::TRANSFORM);
+
+		return (mask & target) == target;
+	}
+
+	bool HasRenderer(int entity) const {
+		if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+		const uint64_t mask = entity_to_mask[entity];
+		const uint64_t target = static_cast<uint64_t>(ComponentBit::RENDERER);
+
+		return (mask & target) == target;
+	}
 private:
 
 
@@ -44,6 +62,7 @@ private:
 	std::vector<TransformComponent> transforms;
 
 	int nextEntityId = 0;
+	int entitiesCount = 0;
 
 };
 

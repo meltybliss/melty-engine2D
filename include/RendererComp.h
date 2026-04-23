@@ -14,6 +14,8 @@ struct TriangleData {
 	Vec2 a{};
 	Vec2 b{};
 	Vec2 c{};
+
+	Color3 color{};
 };
 
 
@@ -22,14 +24,18 @@ struct QuadData {
 	Vec2 b{};
 	Vec2 c{};
 	Vec2 d{};
+
+
+	Color3 color{};
 };
 
 struct RectData {
 
-	Vec2 pos{};
 	float width = 1.f;
 	float height = 1.f;
 
+
+	Color3 color{};
 };
 
 class RendererComponent {

@@ -132,6 +132,7 @@
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer2D.cpp" />
+    <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="third_party\glad.c" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="include\RenderCommand.h" />
     <ClInclude Include="include\Renderer2D.h" />
     <ClInclude Include="include\RendererComp.h" />
+    <ClInclude Include="include\RenderSystem.h" />
     <ClInclude Include="include\SceneManager.h" />
     <ClInclude Include="include\TransformComp.h" />
     <ClInclude Include="include\Vec2.h" />
