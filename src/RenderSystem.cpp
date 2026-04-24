@@ -15,50 +15,55 @@ void RenderSystem::Render(EntityManager& em) {
 
 		if (!rd.visible) continue;
 
-		switch (rd.type) {
-			case ShapeType::Triangle:{
-				auto& d = rd.data.triangle;
+		if (rd.kind == RenderKind::Shape) {
 
-				renderer.SubmitTriangle(tr.position + d.a,
-					tr.position + d.b,
-					tr.position + d.c,
-					d.color,
-					rd.layer);
+			switch (rd.type) {
+				case ShapeType::Triangle: {
+					auto& d = rd.data.triangle;
 
-				break;
-			}
+					renderer.SubmitTriangle(tr.position + d.a,
+						tr.position + d.b,
+						tr.position + d.c,
+						rd.color,
+						rd.layer);
 
-			case ShapeType::Quad: {
-				auto& d = rd.data.quad;
+					break;
+				}
 
-				renderer.SubmitQuad(tr.position + d.a,
-					tr.position + d.b,
-					tr.position + d.c,
-					tr.position + d.d,
-					d.color,
-					rd.layer);
+				case ShapeType::Quad: {
+					auto& d = rd.data.quad;
 
-				break;
+					renderer.SubmitQuad(tr.position + d.a,
+						tr.position + d.b,
+						tr.position + d.c,
+						tr.position + d.d,
+						rd.color,
+						rd.layer);
 
-			}
+					break;
+
+				}
 
 
-			case ShapeType::Rect: {
-				auto& d = rd.data.rect;
+				case ShapeType::Rect: {
+					auto& d = rd.data.rect;
 
-				renderer.SubmitRect(tr.position.x,
-					tr.position.y,
-					d.width * tr.Scale.x,
-					d.height * tr.Scale.y,
-					d.color,
-					rd.layer);
+					renderer.SubmitRect(tr.position.x,
+						tr.position.y,
+						d.width * tr.Scale.x,
+						d.height * tr.Scale.y,
+						rd.color,
+						rd.layer);
 
-				break;
+					break;
+				}
+
 			}
 
 		}
-		
- 
+		else if (rd.kind == RenderKind::Sprite) {
+
+		}
 	}
 
 }

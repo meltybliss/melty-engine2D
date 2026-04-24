@@ -1,13 +1,19 @@
 #pragma once
 #include "Component.h"
 #include "Color.h"
+#include "Texture2D.h"
 #include "Vec2.h"
 
 enum class ShapeType {
 	Triangle,
 	Quad,
-	Rect
+	Rect,
 
+};
+
+enum class RenderKind {
+	Shape,
+	Sprite,
 };
 
 struct TriangleData {
@@ -15,7 +21,11 @@ struct TriangleData {
 	Vec2 b{};
 	Vec2 c{};
 
-	Color3 color{};
+};
+
+struct SpriteData {
+
+	Texture2D* texture = nullptr;
 };
 
 
@@ -25,8 +35,6 @@ struct QuadData {
 	Vec2 c{};
 	Vec2 d{};
 
-
-	Color3 color{};
 };
 
 struct RectData {
@@ -34,16 +42,16 @@ struct RectData {
 	float width = 1.f;
 	float height = 1.f;
 
-
-	Color3 color{};
 };
 
 class RendererComponent {
 public:
 
+	RenderKind kind = RenderKind::Shape;
 	ShapeType type = ShapeType::Triangle;
 	bool visible = true;
 	int layer = 0;
+	Color3 color{};
 
 	union ShapeData {
 		TriangleData triangle;
@@ -51,6 +59,8 @@ public:
 		RectData rect;
 
 	} data;
+
+	SpriteData sprite;
 
 private:
 

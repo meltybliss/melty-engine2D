@@ -9,13 +9,43 @@ int EntityManager::CreateEntity() {
 	entity_to_mask.push_back(0);
 	isAlive.push_back(1);
 
-	entitiesCount++;
+	entity_to_name.push_back("");
+	entity_to_tag.push_back("");
 
+	entitiesCount++;
 	nextEntityId++;
 	return id;
-
 }
 
+
+void EntityManager::DestroyEntity(int entity) {
+	if (entity < 0 || entity >= static_cast<int>(isAlive.size())) return;
+	if (!isAlive[entity]) return;
+
+	isAlive[entity] = 0;
+	entity_to_mask[entity] = 0;
+
+	std::string name = entity_to_name[entity];
+	if (!name.empty()) {
+		name_to_entity.erase(name);
+		entity_to_name[entity].clear();
+	}
+
+	std::string tag = entity_to_tag[entity];
+	if (!tag.empty()) {
+		auto range = tag_to_entity.equal_range(tag);
+		for (auto it = range.first; it != range.second; ++it) {
+			if (it->second == entity) {
+				tag_to_entity.erase(it);
+				break;
+			}
+		}
+		entity_to_tag[entity].clear();
+	}
+
+	entity_to_renderer_idx[entity] = -1;
+	entity_to_transform_idx[entity] = -1;
+}
 
 
 void EntityManager::AddRenderer(int entity) {
@@ -61,47 +91,63 @@ int EntityManager::GetAllEntitiesCount() const {
 }
 
 
-const char* EntityManager::GetName(int entity) const {
-	if (entity < 0 || entity >= isAlive.size()) return;
+const std::string& EntityManager::GetName(int entity) const {
+	static const std::string empty = "";
+	if (entity < 0 || entity >= static_cast<int>(isAlive.size())) return empty;
 
 	return entity_to_name[entity];
 }
 
-const char* EntityManager::GetTag(int entity) const {
-	if (entity < 0 || entity >= isAlive.size()) return;
+const std::string& EntityManager::GetTag(int entity) const {
+	static const std::string empty = "";
+	if (entity < 0 || entity >= static_cast<int>(isAlive.size())) return empty;
 
 	return entity_to_tag[entity];
 }
 
-void EntityManager::SetName(int entity, char* name) {
-	if (name_to_entity.find(name) != name_to_entity.end()) return;
+void EntityManager::SetName(int entity, const std::string& name) {
+	if (entity < 0 || entity >= static_cast<int>(isAlive.size())) return;
+	if (!isAlive[entity]) return;
 
-	char* previous = entity_to_name[entity];
-	name_to_entity.erase(previous);
+	auto found = name_to_entity.find(name);
+	if (found != name_to_entity.end() && found->second != entity) return;
 
-	name_to_entity[name] = entity;
+	std::string previous = entity_to_name[entity];
+	if (!previous.empty()) {
+		name_to_entity.erase(previous);
+	}
+
 	entity_to_name[entity] = name;
+	if (!name.empty()) {
+		name_to_entity[name] = entity;
+	}
 }
 
 
-void EntityManager::SetTag(int entity, char* tag) {
+void EntityManager::SetTag(int entity, const std::string& tag) {
+	if (entity < 0 || entity >= static_cast<int>(isAlive.size())) return;
+	if (!isAlive[entity]) return;
 
-	char* previous = entity_to_tag[entity];
-	auto range = tag_to_entity.equal_range(previous);
+	std::string previous = entity_to_tag[entity];
+	if (!previous.empty()) {
+		auto range = tag_to_entity.equal_range(previous);
 
-	for (auto it = range.first; it != range.second; it++) {
-		if (it->second == entity) {
-			tag_to_entity.erase(it);
-			break;
+		for (auto it = range.first; it != range.second; ++it) {
+			if (it->second == entity) {
+				tag_to_entity.erase(it);
+				break;
+			}
 		}
 	}
 
-	tag_to_entity.insert({ tag, entity });
 	entity_to_tag[entity] = tag;
+
+	if (!tag.empty()) {
+		tag_to_entity.insert({ tag, entity });
+	}
 }
 
-
-std::optional<int> EntityManager::GetEntityFromName(char* name) {
+std::optional<int> EntityManager::GetEntityFromName(const std::string& name) {
 	auto it = name_to_entity.find(name);
 	if (it == name_to_entity.end()) return std::nullopt;
 

@@ -140,6 +140,7 @@
     <ClCompile Include="src\Renderer2D.cpp" />
     <ClCompile Include="src\RenderSystem.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="third_party\glad.c" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,9 @@
     <ClInclude Include="include\RendererComp.h" />
     <ClInclude Include="include\RenderSystem.h" />
     <ClInclude Include="include\SceneManager.h" />
+    <ClInclude Include="include\Texture2D.h" />
+    <ClInclude Include="include\TextureAPI.h" />
+    <ClInclude Include="include\TextureManager.h" />
     <ClInclude Include="include\TransformComp.h" />
     <ClInclude Include="include\Vec2.h" />
     <ClInclude Include="third_party\glad\glad.h" />

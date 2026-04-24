@@ -118,9 +118,9 @@ void Renderer2D::SubmitTriangle(const Vec2& a, const Vec2& b, const Vec2& c, con
 
 	RenderCommand cmd{};
 	cmd.type = CommandType::Triangle;
-	cmd.useColor = true;
+	cmd.useShape = true;
 	cmd.layer = layer;
-	cmd.triangle.color = color;
+	cmd.color = color;
 	cmd.triangle.vertices = vertices;
 
 
@@ -140,9 +140,9 @@ void Renderer2D::SubmitQuad(const Vec2& a, const Vec2& b, const Vec2& c, const V
 
 	RenderCommand cmd{};
 	cmd.type = CommandType::Quad;
-	cmd.useColor = true;
+	cmd.useShape = true;
 	cmd.layer = layer;
-	cmd.quad.color = color;
+	cmd.color = color;
 	cmd.quad.vertices = vertices;
 
 	renderCommands.push_back(cmd);
@@ -154,17 +154,31 @@ void Renderer2D::SubmitRect(float x, float y, float w, float h, const Color3& co
 
 	RenderCommand cmd{};
 	cmd.type = CommandType::Rect;
-	cmd.useColor = true;
+	cmd.useShape = true;
 	cmd.layer = layer;
 	cmd.rect.x = x;
 	cmd.rect.y = y;
 	cmd.rect.w = w;
 	cmd.rect.h = h;
-	cmd.rect.color = color;
+	cmd.color = color;
 
 	renderCommands.push_back(cmd);
 }
 
+
+void Renderer2D::SubmitSprite(Texture2D* texture, float x, float y, const Color3& color, int layer) {
+	RenderCommand cmd{};
+	cmd.type = CommandType::Sprite;
+	cmd.useShape = false;
+	cmd.layer = layer;
+	cmd.sprite.texture = texture;
+	cmd.color = color;
+	cmd.sprite.x = x;
+	cmd.sprite.y = y;
+
+	renderCommands.push_back(cmd);
+}
+ 
 
 void Renderer2D::BeginFrame() {
 
@@ -184,7 +198,7 @@ void Renderer2D::EndFrame() {
 	//flush 
 	for (auto& cmd : renderCommands) {
 
-		if (cmd.useColor) {
+		if (cmd.useShape) {
 			if (curProgram != colorShaderProgram) {
 
 				curProgram = colorShaderProgram;
@@ -196,15 +210,15 @@ void Renderer2D::EndFrame() {
 
 		}
 
+
+		glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
+		glUniform3f(colorLoc, cmd.color.r, cmd.color.g, cmd.color.b);
+
+
 		switch (cmd.type) {
 
 
 			case CommandType::Triangle: {
-
-			
-				glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
-				glUniform3f(colorLoc, cmd.triangle.color.r, cmd.triangle.color.g, cmd.triangle.color.b);
-
 
 				glBufferData(GL_ARRAY_BUFFER, sizeof(cmd.triangle.vertices), cmd.triangle.vertices.data(), GL_DYNAMIC_DRAW);
 
@@ -215,10 +229,6 @@ void Renderer2D::EndFrame() {
 
 			case CommandType::Quad: {
 			
-				glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
-				glUniform3f(colorLoc, cmd.quad.color.r, cmd.quad.color.g, cmd.quad.color.b);
-
-				
 				auto& v = cmd.quad.vertices;
 
 
@@ -250,9 +260,6 @@ void Renderer2D::EndFrame() {
 
 			case CommandType::Rect: {
 				
-				glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
-				glUniform3f(colorLoc, cmd.rect.color.r, cmd.rect.color.g, cmd.rect.color.b);
-
 
 				auto& r = cmd.rect;
 

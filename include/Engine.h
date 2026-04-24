@@ -2,6 +2,7 @@
 #include "GLFW/glfw3.h"
 #include "Renderer2D.h"
 #include "SceneManager.h"
+#include "TextureManager.h"
 #include "Input.h"
 
 class Engine {
@@ -16,11 +17,13 @@ public:
 
 	Renderer2D& GetRenderer2D() { return renderer; }
 	Input& GetInput() { return input; }
+	TextureManager& GetTextureManager() { return textureM; }
 private:
 	GLFWwindow* m_window = nullptr;
 	Renderer2D renderer;
 	Input input;
 	SceneManager sceneM;
+	TextureManager textureM;
 
 	bool running = true;
 	float lastTime = 0;
