@@ -342,7 +342,7 @@ void Renderer2D::EndFrame() {
 				};
 
 				glUniform2f(screenSizeLoc2, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
-				glUniform3f(colorLoc2, cmd.color.r, cmd.color.g, cmd.color.b);
+				glUniform4f(colorLoc2, cmd.color.r, cmd.color.g, cmd.color.b, 1.0f);
 
 				glUniform1i(texLoc, 0);
 				glActiveTexture(GL_TEXTURE0);
