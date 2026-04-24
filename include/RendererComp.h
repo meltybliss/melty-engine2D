@@ -44,7 +44,7 @@ struct RectData {
 
 };
 
-class RendererComponent {
+class RendererComponent : public Component {
 public:
 
 	RenderKind kind = RenderKind::Shape;
@@ -57,6 +57,9 @@ public:
 		TriangleData triangle;
 		QuadData quad;
 		RectData rect;
+
+		ShapeData() : rect{} {}
+		~ShapeData() {}
 
 	} data;
 

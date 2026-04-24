@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseScene.h" />
+    <ClInclude Include="include\ColliderComp.h" />
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Engine.h" />

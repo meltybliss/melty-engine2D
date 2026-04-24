@@ -5,6 +5,7 @@ int EntityManager::CreateEntity() {
 
 	if (entity_to_renderer_idx.size() <= id) entity_to_renderer_idx.resize(id + 1, -1);
 	if (entity_to_transform_idx.size() <= id) entity_to_transform_idx.resize(id + 1, -1);
+	if (entity_to_collider_idx.size() <= id) entity_to_collider_idx.resize(id + 1, -1);
 
 	entity_to_mask.push_back(0);
 	isAlive.push_back(1);
@@ -45,6 +46,7 @@ void EntityManager::DestroyEntity(int entity) {
 
 	entity_to_renderer_idx[entity] = -1;
 	entity_to_transform_idx[entity] = -1;
+	entity_to_collider_idx[entity] = -1;
 }
 
 
@@ -74,6 +76,19 @@ void EntityManager::AddTransform(int entity) {
 	entity_to_mask[entity] |= static_cast<uint64_t>(ComponentBit::TRANSFORM);
 }
 
+void EntityManager::AddCollider(int entity) {
+	if (entity_to_collider_idx[entity] != -1) return;
+
+	ColliderComponent cmp{};
+
+	colliders.push_back(cmp);
+
+	entity_to_collider_idx[entity] = colliders.size() - 1;
+
+	entity_to_mask[entity] |= static_cast<uint64_t>(ComponentBit::COLLIDER);
+
+}
+
 
 RendererComponent& EntityManager::GetRenderer(int entity) {
 	return rendererComps[entity_to_renderer_idx[entity]];
@@ -84,7 +99,9 @@ TransformComponent& EntityManager::GetTransform(int entity) {
 	return transforms[entity_to_transform_idx[entity]];
 }
 
-
+ColliderComponent& EntityManager::GetCollider(int entity) {
+	return colliders[entity_to_collider_idx[entity]];
+}
 
 int EntityManager::GetAllEntitiesCount() const {
 	return entitiesCount;

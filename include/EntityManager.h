@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "RendererComp.h"
 #include "TransformComp.h"
+#include "ColliderComp.h"
 #include <vector>
 #include <unordered_map>
 #include <stdint.h>
@@ -13,6 +14,7 @@ enum class ComponentBit {
 	NONE = 0,
 	RENDERER = 1ULL << 0,
 	TRANSFORM = 1ULL << 1,
+	COLLIDER = 1ULL << 2,
 
 };
 
@@ -28,9 +30,11 @@ public:
 
 	void AddRenderer(int entity);
 	void AddTransform(int entity);
+	void AddCollider(int entity);
 
 	RendererComponent& GetRenderer(int entity);
 	TransformComponent& GetTransform(int entity);
+	ColliderComponent& GetCollider(int entity);
 	
 	int GetAllEntitiesCount() const;
 	uint8_t IsAlive(int entity) const {
@@ -51,6 +55,15 @@ public:
 
 		const uint64_t mask = entity_to_mask[entity];
 		const uint64_t target = static_cast<uint64_t>(ComponentBit::RENDERER);
+
+		return (mask & target) == target;
+	}
+
+	bool HasCollider(int entity) const {
+		if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+		const uint64_t mask = entity_to_mask[entity];
+		const uint64_t target = static_cast<uint64_t>(ComponentBit::COLLIDER);
 
 		return (mask & target) == target;
 	}
@@ -77,9 +90,12 @@ private:
 
 	std::vector<int> entity_to_renderer_idx;
 	std::vector<int> entity_to_transform_idx;
+	std::vector<int> entity_to_collider_idx;
 
 	std::vector<RendererComponent> rendererComps;
 	std::vector<TransformComponent> transforms;
+	std::vector<ColliderComponent> colliders;
+
 
 	int nextEntityId = 0;
 	int entitiesCount = 0;

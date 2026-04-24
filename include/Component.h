@@ -3,12 +3,7 @@
 
 class Component {
 public:
-	virtual ~Component();
-
-	virtual void Tick(float dt) = 0;
+	virtual ~Component() = default;
 
 	bool active = true;
-
-protected:
-	//GameObject* owner
 };
