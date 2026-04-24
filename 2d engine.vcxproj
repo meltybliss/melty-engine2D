@@ -172,6 +172,8 @@
   <ItemGroup>
     <None Include="resources\shaders\color2d.frag" />
     <None Include="resources\shaders\color2d.vert" />
+    <None Include="resources\shaders\sprite2d.frag" />
+    <None Include="resources\shaders\sprite2d.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

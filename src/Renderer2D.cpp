@@ -106,6 +106,27 @@ Renderer2D::Renderer2D() {
 
 	this->screenSizeLoc = glGetUniformLocation(colorShaderProgram, "uScreenSize");
 	this->colorLoc = glGetUniformLocation(colorShaderProgram, "uColor");
+
+	//sprite shader
+	spriteShaderProgram = CreateShaderProgram("resources/shaders/sprite2d.vert", "resources/shaders/sprite2d.frag");
+
+	glGenVertexArrays(1, &spriteVAO);
+	glGenBuffers(1, &spriteVBO);
+
+	glBindVertexArray(spriteVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, spriteVBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 24, nullptr, GL_DYNAMIC_DRAW);
+
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	this->screenSizeLoc2 = glGetUniformLocation(spriteShaderProgram, "uScreenSize");
+	this->colorLoc2 = glGetUniformLocation(spriteShaderProgram, "uColor");
+	this->texLoc = glGetUniformLocation(spriteShaderProgram, "uTexture");
 }
 
 
@@ -199,6 +220,7 @@ void Renderer2D::EndFrame() {
 	for (auto& cmd : renderCommands) {
 
 		if (cmd.useShape) {
+
 			if (curProgram != colorShaderProgram) {
 
 				curProgram = colorShaderProgram;
@@ -208,11 +230,20 @@ void Renderer2D::EndFrame() {
 				glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
 			}
 
+			glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
+			glUniform4f(colorLoc, cmd.color.r, cmd.color.g, cmd.color.b, 1.0f);
+
 		}
+		else {
+			if (curProgram != spriteShaderProgram) {
+				curProgram = spriteShaderProgram;
+				glUseProgram(spriteShaderProgram);
 
+				glBindVertexArray(spriteVAO);
+				glBindBuffer(GL_ARRAY_BUFFER, spriteVBO);
+			}
 
-		glUniform2f(screenSizeLoc, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
-		glUniform3f(colorLoc, cmd.color.r, cmd.color.g, cmd.color.b);
+		}
 
 
 		switch (cmd.type) {
@@ -261,7 +292,7 @@ void Renderer2D::EndFrame() {
 			case CommandType::Rect: {
 				
 
-				auto& r = cmd.rect;
+				auto& d = cmd.rect;
 
 				//expected
 				//4-----3
@@ -270,22 +301,58 @@ void Renderer2D::EndFrame() {
 				//1-----2
 				float final_vertices[]{
 					//triangle1
-					r.x, r.y,
-					r.x + r.w, r.y,
-					r.x + r.w, r.y + r.h,
+					d.x, d.y,
+					d.x + d.w, d.y,
+					d.x + d.w, d.y + d.h,
 
 					//triangle2
-					r.x, r.y,
-					r.x + r.w, r.y + r.h,
-					r.x, r.y + r.h
+					d.x, d.y,
+					d.x + d.w, d.y + d.h,
+					d.x, d.y + d.h
 				};
+
+			
+				glBufferData(GL_ARRAY_BUFFER, sizeof(final_vertices), final_vertices, GL_DYNAMIC_DRAW);
+
+				glDrawArrays(GL_TRIANGLES, 0, 6);
+				break;
+
+			}
+
+
+			case CommandType::Sprite: {
+				auto& d = cmd.sprite;
+				auto& tex = cmd.sprite.texture;
+
+				//expected
+				//4-----3
+				//|		|
+				//|     |
+				//1-----2
+				float final_vertices[]{
+					//triangle1
+					d.x, d.y - tex->height, 0.0f, 1.0f,
+					d.x + tex->width, d.y - tex->height, 1.0f, 1.0f,
+					d.x + tex->width, d.y, 1.0f, 0.0f,
+
+					//triangle2
+					d.x, d.y - tex->height, 0.0f, 1.0f,
+					d.x + tex->width, d.y, 1.0f, 0.0f,
+					d.x, d.y, 0.0f, 0.0f
+				};
+
+				glUniform2f(screenSizeLoc2, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));
+				glUniform3f(colorLoc2, cmd.color.r, cmd.color.g, cmd.color.b);
+
+				glUniform1i(texLoc, 0);
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, tex->id);
 
 
 				glBufferData(GL_ARRAY_BUFFER, sizeof(final_vertices), final_vertices, GL_DYNAMIC_DRAW);
 
 				glDrawArrays(GL_TRIANGLES, 0, 6);
 				break;
-
 			}
 		}
 

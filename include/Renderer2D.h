@@ -40,6 +40,9 @@ private:
 	GLint screenSizeLoc;
 	GLint colorLoc;
 
+	GLint screenSizeLoc2;
+	GLint colorLoc2;
+	GLuint texLoc;
 
 	static std::string ReadFile(const std::string& path);
 	static GLuint CompileShader(GLenum type, const std::string& source, const std::string& debugName);
