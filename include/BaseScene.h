@@ -12,6 +12,9 @@ public:
     void Tick(float dt) override {}
     void Render() override;
 
+protected:
+    int CreateRectEntity(const Vec2& pos, float w, float h, const Color3& color, int layer);
+    int CreateSpriteEntity(const std::string& texturePath, const Vec2& pos, int layer);
 
 private:
 

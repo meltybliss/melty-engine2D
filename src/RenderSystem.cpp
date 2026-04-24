@@ -62,7 +62,15 @@ void RenderSystem::Render(EntityManager& em) {
 
 		}
 		else if (rd.kind == RenderKind::Sprite) {
+			auto& d = rd.sprite;
 
+			renderer.SubmitSprite(d.texture,
+				tr.position.x,
+				tr.position.y,
+				rd.color,
+				rd.layer);
+
+			break;
 		}
 	}
 
