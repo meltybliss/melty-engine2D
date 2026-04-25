@@ -192,7 +192,86 @@ void EditorScene::DrawInspector() {
         ImGui::Checkbox("Visible", &rd.visible);
         ImGui::DragInt("Layer", &rd.layer, 1);
 
-        if (rd.kind == RenderKind::Sprite) {
+        float color[3] = { rd.color.r, rd.color.g, rd.color.b };
+        if (ImGui::ColorEdit3("Color", color)) {
+            rd.color.r = color[0];
+            rd.color.g = color[1];
+            rd.color.b = color[2];
+        }
+
+        const char* kindItems[] = { "Shape", "Sprite" };
+        int kindIndex = (rd.kind == RenderKind::Shape) ? 0 : 1;
+
+        if (ImGui::Combo("Kind", &kindIndex, kindItems, IM_ARRAYSIZE(kindItems))) {
+            if (kindIndex == 0) {
+                rd.kind = RenderKind::Shape;
+                rd.type = ShapeType::Rect;
+                rd.data.rect.width = 64.0f;
+                rd.data.rect.height = 64.0f;
+            }
+            else {
+                rd.kind = RenderKind::Sprite;
+                rd.sprite.texturePath = "resources/testSprites/test1.png";
+                rd.sprite.texture = GetTexture(rd.sprite.texturePath);
+                editingTexturePath = rd.sprite.texturePath;
+            }
+        }
+
+        if (rd.kind == RenderKind::Shape) {
+            const char* shapeItems[] = { "Triangle", "Quad", "Rect" };
+
+            int typeIndex = 0;
+            if (rd.type == ShapeType::Triangle) typeIndex = 0;
+            else if (rd.type == ShapeType::Quad) typeIndex = 1;
+            else if (rd.type == ShapeType::Rect) typeIndex = 2;
+
+            if (ImGui::Combo("Shape Type", &typeIndex, shapeItems, IM_ARRAYSIZE(shapeItems))) {
+                if (typeIndex == 0) {
+                    rd.type = ShapeType::Triangle;
+                    rd.data.triangle.a = { 0.0f, 0.0f };
+                    rd.data.triangle.b = { 64.0f, 0.0f };
+                    rd.data.triangle.c = { 32.0f, 64.0f };
+                }
+                else if (typeIndex == 1) {
+                    rd.type = ShapeType::Quad;
+                    rd.data.quad.a = { -32.0f, -32.0f };
+                    rd.data.quad.b = { 32.0f, -32.0f };
+                    rd.data.quad.c = { 32.0f,  32.0f };
+                    rd.data.quad.d = { -32.0f,  32.0f };
+                }
+                else if (typeIndex == 2) {
+                    rd.type = ShapeType::Rect;
+                    rd.data.rect.width = 64.0f;
+                    rd.data.rect.height = 64.0f;
+                }
+            }
+
+            if (rd.type == ShapeType::Rect) {
+                ImGui::DragFloat("Width", &rd.data.rect.width, 1.0f, 0.0f);
+                ImGui::DragFloat("Height", &rd.data.rect.height, 1.0f, 0.0f);
+            }
+            else if (rd.type == ShapeType::Triangle) {
+                float a[2] = { rd.data.triangle.a.x, rd.data.triangle.a.y };
+                float b[2] = { rd.data.triangle.b.x, rd.data.triangle.b.y };
+                float c[2] = { rd.data.triangle.c.x, rd.data.triangle.c.y };
+
+                if (ImGui::DragFloat2("A", a, 1.0f)) rd.data.triangle.a = { a[0], a[1] };
+                if (ImGui::DragFloat2("B", b, 1.0f)) rd.data.triangle.b = { b[0], b[1] };
+                if (ImGui::DragFloat2("C", c, 1.0f)) rd.data.triangle.c = { c[0], c[1] };
+            }
+            else if (rd.type == ShapeType::Quad) {
+                float a[2] = { rd.data.quad.a.x, rd.data.quad.a.y };
+                float b[2] = { rd.data.quad.b.x, rd.data.quad.b.y };
+                float c[2] = { rd.data.quad.c.x, rd.data.quad.c.y };
+                float d[2] = { rd.data.quad.d.x, rd.data.quad.d.y };
+
+                if (ImGui::DragFloat2("A", a, 1.0f)) rd.data.quad.a = { a[0], a[1] };
+                if (ImGui::DragFloat2("B", b, 1.0f)) rd.data.quad.b = { b[0], b[1] };
+                if (ImGui::DragFloat2("C", c, 1.0f)) rd.data.quad.c = { c[0], c[1] };
+                if (ImGui::DragFloat2("D", d, 1.0f)) rd.data.quad.d = { d[0], d[1] };
+            }
+        }
+        else if (rd.kind == RenderKind::Sprite) {
             char pathBuffer[256]{};
             std::snprintf(pathBuffer, sizeof(pathBuffer), "%s", editingTexturePath.c_str());
 
@@ -209,12 +288,20 @@ void EditorScene::DrawInspector() {
         if (ImGui::Button("Remove Renderer")) {
             entityManager.RemoveComponent<RendererComponent>(selectedEntity);
             editingTexturePath.clear();
+            ImGui::End();
+            return;
         }
     }
     else {
         if (ImGui::Button("Add Renderer")) {
             RendererComponent rd{};
             rd.visible = true;
+            rd.kind = RenderKind::Shape;
+            rd.type = ShapeType::Rect;
+            rd.data.rect.width = 64.0f;
+            rd.data.rect.height = 64.0f;
+            rd.color = { 1.0f, 1.0f, 1.0f };
+            rd.layer = 0;
 
             commandStack.Do(
                 std::make_unique<AddComponentCommand<RendererComponent>>(

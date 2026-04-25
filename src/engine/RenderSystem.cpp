@@ -96,6 +96,9 @@ void RenderSystem::Render(EntityManager& em) {
 		}
 		else if (rd.kind == RenderKind::Sprite) {
 			auto& d = rd.sprite;
+
+			if (!d.texture) return;
+
 			float w = d.texture->width;
 			float h = d.texture->height;
 
