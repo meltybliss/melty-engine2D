@@ -42,6 +42,7 @@ int BaseScene::CreateSpriteEntity(const std::string& texturePath, const Vec2& po
 
 	auto& rd = entityManager.GetComponent<RendererComponent>(e);
 	rd.kind = RenderKind::Sprite;
+	rd.sprite.texturePath = texturePath;
 	rd.sprite.texture = GetTexture(texturePath);
 	rd.color = {1.0f, 1.0f, 1.0f};
 	rd.layer = layer;

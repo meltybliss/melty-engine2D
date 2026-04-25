@@ -6,11 +6,17 @@
 #include "engine/TransformComp.h"
 #include "engine/RendererComp.h"
 #include "engine/ColliderComp.h"
+#include "engine/TextureAPI.h"
 
 void EditorScene::Enter() {
     selectedEntity = -1;
     editingName.clear();
     wasEditingTransform = false;
+
+    int e = CreateRectEntity({ 100.0f, 100.0f }, 80.0f, 80.0f, { 1.0f, 0.0f, 0.0f }, 0);
+    entityManager.SetName(e, "Rect 1");
+    selectedEntity = e;
+    editingName = entityManager.GetName(e);
 }
 
 void EditorScene::Exit() {
@@ -29,6 +35,43 @@ void EditorScene::Render() {
 void EditorScene::DrawHierarchy() {
     ImGui::Begin("Hierarchy");
 
+    if (ImGui::Button("Add Empty")) {
+        int e = entityManager.CreateEntity();
+        entityManager.AddComponent<TransformComponent>(e);
+        entityManager.SetName(e, "Empty " + std::to_string(e));
+
+        selectedEntity = e;
+        editingName = entityManager.GetName(e);
+    }
+
+    if (ImGui::Button("Add Rect")) {
+        int e = CreateRectEntity({ 100.0f, 100.0f }, 80.0f, 80.0f, { 0.2f, 0.8f, 0.3f }, 0);
+        entityManager.SetName(e, "Rect " + std::to_string(e));
+
+        selectedEntity = e;
+        editingName = entityManager.GetName(e);
+    }
+
+    char spritePathBuf[256]{};
+    std::snprintf(spritePathBuf, sizeof(spritePathBuf), "%s", newSpritePath.c_str());
+
+    if (ImGui::InputText("New Sprite Path", spritePathBuf, sizeof(spritePathBuf))) {
+        newSpritePath = spritePathBuf;
+    }
+
+    if (ImGui::Button("Add Sprite")) {
+        int e = CreateSpriteEntity(newSpritePath, { 100.0f, 100.0f }, 0);
+
+        if (e != -1) {
+            entityManager.SetName(e, "Sprite " + std::to_string(e));
+            selectedEntity = e;
+            editingName = entityManager.GetName(e);
+        }
+    }
+
+
+    ImGui::Separator();
+
     auto alive = entityManager.GetAliveEntities();
     for (int e : alive) {
         std::string label = entityManager.GetName(e);
@@ -36,10 +79,22 @@ void EditorScene::DrawHierarchy() {
             label = "Entity " + std::to_string(e);
         }
 
-        bool selected = (selectedEntity == e);
-        if (ImGui::Selectable(label.c_str(), selected)) {
+        if (ImGui::Selectable(label.c_str(), selectedEntity == e)) {
             selectedEntity = e;
             editingName = entityManager.GetName(e);
+
+            if (entityManager.HasComponent<RendererComponent>(e)) {
+                auto& rd = entityManager.GetComponent<RendererComponent>(e);
+                if (rd.kind == RenderKind::Sprite) {
+                    editingTexturePath = rd.sprite.texturePath;
+                }
+                else {
+                    editingTexturePath.clear();
+                }
+            }
+            else {
+                editingTexturePath.clear();
+            }
         }
     }
 
@@ -80,12 +135,10 @@ void EditorScene::DrawInspector() {
     if (entityManager.HasComponent<TransformComponent>(selectedEntity)) {
         auto& tr = entityManager.GetComponent<TransformComponent>(selectedEntity);
 
-        float pos[2] = { tr.position.x, tr.position.y };
+        ImGui::Separator();
+        ImGui::Text("Transform");
 
-        if (ImGui::IsItemActivated()) {
-            oldTransformPos = tr.position;
-            wasEditingTransform = true;
-        }
+        float pos[2] = { tr.position.x, tr.position.y };
 
         if (ImGui::DragFloat2("Position", pos, 1.0f)) {
             tr.position.x = pos[0];
@@ -112,6 +165,10 @@ void EditorScene::DrawInspector() {
 
             wasEditingTransform = false;
         }
+
+        if (ImGui::Button("Remove Transform")) {
+            entityManager.RemoveComponent<TransformComponent>(selectedEntity);
+        }
     }
     else {
         if (ImGui::Button("Add Transform")) {
@@ -124,7 +181,35 @@ void EditorScene::DrawInspector() {
     }
 
     // renderer
-    if (!entityManager.HasComponent<RendererComponent>(selectedEntity)) {
+    if (entityManager.HasComponent<RendererComponent>(selectedEntity)) {
+        auto& rd = entityManager.GetComponent<RendererComponent>(selectedEntity);
+
+        ImGui::Separator();
+        ImGui::Text("Renderer");
+
+        ImGui::Checkbox("Visible", &rd.visible);
+        ImGui::DragInt("Layer", &rd.layer, 1);
+
+        if (rd.kind == RenderKind::Sprite) {
+            char pathBuffer[256]{};
+            std::snprintf(pathBuffer, sizeof(pathBuffer), "%s", editingTexturePath.c_str());
+
+            if (ImGui::InputText("Texture Path", pathBuffer, sizeof(pathBuffer))) {
+                editingTexturePath = pathBuffer;
+            }
+
+            if (ImGui::Button("Apply Texture")) {
+                rd.sprite.texturePath = editingTexturePath;
+                rd.sprite.texture = GetTexture(editingTexturePath);
+            }
+        }
+
+        if (ImGui::Button("Remove Renderer")) {
+            entityManager.RemoveComponent<RendererComponent>(selectedEntity);
+            editingTexturePath.clear();
+        }
+    }
+    else {
         if (ImGui::Button("Add Renderer")) {
             RendererComponent rd{};
             rd.visible = true;
@@ -138,7 +223,21 @@ void EditorScene::DrawInspector() {
     }
 
     // collider
-    if (!entityManager.HasComponent<ColliderComponent>(selectedEntity)) {
+    if (entityManager.HasComponent<ColliderComponent>(selectedEntity)) {
+        auto& cl = entityManager.GetComponent<ColliderComponent>(selectedEntity);
+
+        ImGui::Separator();
+        ImGui::Text("Collider");
+
+        ImGui::DragFloat("Width", &cl.width, 1.0f, 0.0f);
+        ImGui::DragFloat("Height", &cl.height, 1.0f, 0.0f);
+        ImGui::Checkbox("Is Trigger", &cl.isTrigger);
+
+        if (ImGui::Button("Remove Collider")) {
+            entityManager.RemoveComponent<ColliderComponent>(selectedEntity);
+        }
+    }
+    else {
         if (ImGui::Button("Add Collider")) {
             ColliderComponent cl{};
             cl.width = 32.0f;

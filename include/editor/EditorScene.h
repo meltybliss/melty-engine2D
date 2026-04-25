@@ -18,7 +18,14 @@ private:
     CommandStack commandStack;
     int selectedEntity = -1;
 
+
+    std::string editingTexturePath;
+    int lastSelectedEntity = -1;
+
+    std::string newSpritePath = "resources/player.png";
+
     std::string editingName;
     Vec2 oldTransformPos{};
     bool wasEditingTransform = false;
+
 };

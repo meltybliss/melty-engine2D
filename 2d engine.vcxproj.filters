@@ -75,9 +75,6 @@
     <ClCompile Include="src\editor\CommandStack.cpp">
       <Filter>ソース ファイル\editor</Filter>
     </ClCompile>
-    <ClCompile Include="src\editor\EditorScene.cpp">
-      <Filter>ソース ファイル\editor</Filter>
-    </ClCompile>
     <ClCompile Include="third_party\imgui\imgui.cpp">
       <Filter>third_party</Filter>
     </ClCompile>
@@ -101,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="third_party\imgui\imgui_widgets.cpp">
       <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\EditorScene.cpp">
+      <Filter>ソース ファイル\editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +191,6 @@
     <ClInclude Include="include\editor\ICommand.h">
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\editor\EditorScene.h">
-      <Filter>ヘッダー ファイル\editor</Filter>
-    </ClInclude>
     <ClInclude Include="include\editor\RenameEntityCommand.h">
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
@@ -232,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="third_party\imgui\imstb_truetype.h">
       <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="include\editor\EditorScene.h">
+      <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

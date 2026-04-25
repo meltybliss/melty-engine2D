@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "Texture2D.h"
 #include "Vec2.h"
+#include <string>
 
 enum class ShapeType {
 	Triangle,
@@ -26,6 +27,7 @@ struct TriangleData {
 struct SpriteData {
 
 	Texture2D* texture = nullptr;
+	std::string texturePath;
 };
 
 
