@@ -92,30 +92,35 @@ void EntityManager::AddComponent<ColliderComponent>(int entity) {
 
 template<>
 void EntityManager::RemoveComponent<RendererComponent>(int entity) {
+	if (entity < 0 || entity >= entity_to_renderer_idx.size()) return;
+
 	int idx = entity_to_renderer_idx[entity];
+	if (idx == -1) return;
+
 
 	rendererComps[idx].active = false;
-
 	entity_to_renderer_idx[entity] = -1;
-
+	entity_to_mask[entity] &= ~static_cast<uint64_t>(ComponentBit::RENDERER);
 }
 
 template<>
 void EntityManager::RemoveComponent<TransformComponent>(int entity) {
+	if (entity < 0 || entity >= entity_to_transform_idx.size()) return;
 	int idx = entity_to_transform_idx[entity];
 
 	transforms[idx].active = false;
-
 	entity_to_transform_idx[entity] = -1;
+	entity_to_mask[entity] &= ~static_cast<uint64_t>(ComponentBit::TRANSFORM);
 }
 
 template<>
 void EntityManager::RemoveComponent<ColliderComponent>(int entity) {
+	if (entity < 0 || entity >= entity_to_collider_idx.size()) return;
 	int idx = entity_to_collider_idx[entity];
 
 	colliders[idx].active = false;
-
-	entity_to_transform_idx[entity] = -1;
+	entity_to_collider_idx[entity] = -1;
+	entity_to_mask[entity] &= ~static_cast<uint64_t>(ComponentBit::COLLIDER);
 }
 
 
