@@ -87,6 +87,12 @@
     <ClCompile Include="third_party\imgui\imgui_impl_dx11.cpp">
       <Filter>third_party</Filter>
     </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui_impl_glfw.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui_impl_opengl3.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
     <ClCompile Include="third_party\imgui\imgui_impl_win32.cpp">
       <Filter>third_party</Filter>
     </ClCompile>
@@ -203,7 +209,13 @@
     <ClInclude Include="third_party\imgui\imgui_impl_dx11.h">
       <Filter>third_party</Filter>
     </ClInclude>
-    <ClInclude Include="third_party\imgui\imgui_impl_raylib.h">
+    <ClInclude Include="third_party\imgui\imgui_impl_glfw.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imgui_impl_opengl3.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imgui_impl_opengl3_loader.h">
       <Filter>third_party</Filter>
     </ClInclude>
     <ClInclude Include="third_party\imgui\imgui_impl_win32.h">

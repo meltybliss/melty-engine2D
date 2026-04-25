@@ -88,7 +88,7 @@ GLuint Renderer2D::CreateShaderProgram(const std::string& vertPath, const std::s
 }
 
 
-Renderer2D::Renderer2D() {
+void Renderer2D::Init() {
 
 	//color shader
 	colorShaderProgram = CreateShaderProgram("resources/shaders/color2d.vert", "resources/shaders/color2d.frag");

@@ -13,7 +13,8 @@
 class Renderer2D {
 public:
 
-	Renderer2D();
+	Renderer2D() = default;
+	void Init();
 
 	void BeginFrame();
 	void EndFrame();
@@ -37,12 +38,12 @@ private:
 
 	std::vector<RenderCommand> renderCommands;
 
-	GLint screenSizeLoc;
-	GLint colorLoc;
+	GLint screenSizeLoc = 0;
+	GLint colorLoc = 0;
 
-	GLint screenSizeLoc2;
-	GLint colorLoc2;
-	GLuint texLoc;
+	GLint screenSizeLoc2 = 0;
+	GLint colorLoc2 = 0;
+	GLuint texLoc = 0;
 
 	static std::string ReadFile(const std::string& path);
 	static GLuint CompileShader(GLenum type, const std::string& source, const std::string& debugName);
