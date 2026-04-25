@@ -72,10 +72,10 @@ void Engine::Run() {
 
 		sceneM.Render();
 
+		renderer.EndFrame();
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-		renderer.EndFrame();
 
 		glfwSwapBuffers(m_window);
 
