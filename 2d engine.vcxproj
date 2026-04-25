@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseScene.cpp" />
+    <ClCompile Include="src\CollisionSystem.cpp" />
     <ClCompile Include="src\Engine.cpp" />
     <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -146,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="include\BaseScene.h" />
     <ClInclude Include="include\ColliderComp.h" />
+    <ClInclude Include="include\CollisionSystem.h" />
     <ClInclude Include="include\Color.h" />
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\Engine.h" />
