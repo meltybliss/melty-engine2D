@@ -1,7 +1,7 @@
 #include "editor/EditorScene.h"
 #include "imgui/imgui.h"
 #include "editor/RenameEntityCommand.h"
-#include "editor/MoveEntityCommand.h"
+#include "editor/EditTransformCommand.h"
 #include "editor/AddComponentCommand.h"
 #include "engine/TransformComp.h"
 #include "engine/RendererComp.h"
@@ -138,45 +138,47 @@ void EditorScene::DrawInspector() {
         ImGui::Separator();
         ImGui::Text("Transform");
 
+        TransformComponent oldValue = tr;
+
         float pos[2] = { tr.position.x, tr.position.y };
+        float scale[2] = { tr.Scale.x, tr.Scale.y };
+        float rotation = tr.rotation;
 
         if (ImGui::DragFloat2("Position", pos, 1.0f)) {
             tr.position.x = pos[0];
             tr.position.y = pos[1];
         }
 
-        if (ImGui::IsItemActivated()) {
-            oldTransformPos = tr.position;
-            wasEditingTransform = true;
+        if (ImGui::DragFloat2("Scale", scale, 0.1f)) {
+            tr.Scale.x = scale[0];
+            tr.Scale.y = scale[1];
+        }
+
+        if (ImGui::DragFloat("Rotation", &rotation, 1.0f)) {
+            tr.rotation = rotation;
         }
 
         if (ImGui::IsItemDeactivatedAfterEdit()) {
-            Vec2 newPos = tr.position;
+            TransformComponent newValue = tr;
 
-            if (wasEditingTransform &&
-                (newPos.x != oldTransformPos.x || newPos.y != oldTransformPos.y)) {
+            bool changed =
+                oldValue.position.x != newValue.position.x ||
+                oldValue.position.y != newValue.position.y ||
+                oldValue.Scale.x != newValue.Scale.x ||
+                oldValue.Scale.y != newValue.Scale.y ||
+                oldValue.rotation != newValue.rotation;
 
-                tr.position = oldTransformPos;
+            if (changed) {
+                tr = oldValue;
 
-                commandStack.Do(std::make_unique<MoveEntityCommand>(
-                    entityManager, selectedEntity, oldTransformPos, newPos
+                commandStack.Do(std::make_unique<EditTransformCommand>(
+                    entityManager, selectedEntity, oldValue, newValue
                 ));
             }
-
-            wasEditingTransform = false;
         }
 
         if (ImGui::Button("Remove Transform")) {
             entityManager.RemoveComponent<TransformComponent>(selectedEntity);
-        }
-    }
-    else {
-        if (ImGui::Button("Add Transform")) {
-            commandStack.Do(
-                std::make_unique<AddComponentCommand<TransformComponent>>(
-                    entityManager, selectedEntity, TransformComponent{}
-                )
-            );
         }
     }
 

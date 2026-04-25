@@ -194,7 +194,7 @@
     <ClInclude Include="include\editor\RenameEntityCommand.h">
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\editor\MoveEntityCommand.h">
+    <ClInclude Include="include\editor\EditTransformCommand.h">
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
     <ClInclude Include="third_party\imgui\imconfig.h">

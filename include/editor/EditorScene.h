@@ -22,7 +22,7 @@ private:
     std::string editingTexturePath;
     int lastSelectedEntity = -1;
 
-    std::string newSpritePath = "resources/player.png";
+    std::string newSpritePath = "resources/testSprites/test1.png";
 
     std::string editingName;
     Vec2 oldTransformPos{};

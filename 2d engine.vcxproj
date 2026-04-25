@@ -159,7 +159,7 @@
     <ClInclude Include="include\editor\CommandStack.h" />
     <ClInclude Include="include\editor\EditorScene.h" />
     <ClInclude Include="include\editor\ICommand.h" />
-    <ClInclude Include="include\editor\MoveEntityCommand.h" />
+    <ClInclude Include="include\editor\EditTransformCommand.h" />
     <ClInclude Include="include\editor\RenameEntityCommand.h" />
     <ClInclude Include="include\engine\BaseScene.h" />
     <ClInclude Include="include\engine\ColliderComp.h" />

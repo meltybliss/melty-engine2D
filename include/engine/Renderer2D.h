@@ -21,8 +21,8 @@ public:
 
 	void SubmitTriangle(const Vec2& a, const Vec2& b, const Vec2& c, const Color3& color, int layer);
 	void SubmitQuad(const Vec2& a, const Vec2& b, const Vec2& c, const Vec2& d, const Color3& color, int layer);
-	void SubmitRect(float x, float y, float w, float h, const Color3& color, int layer);
-	void SubmitSprite(Texture2D* texture, float x, float y, const Color3& color, int layer);
+	void SubmitRect(const Vec2& a, const Vec2& b, const Vec2& c, const Vec2& d, const Color3& color, int layer);
+	void SubmitSprite(Texture2D* texture, const Vec2& a, const Vec2& b, const Vec2& c, const Vec2& d, const Color3& color, int layer);
 
 private:
 

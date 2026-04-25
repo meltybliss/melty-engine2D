@@ -24,16 +24,14 @@ struct QuadCommand {
 
 struct RectCommand {
 	
-	float x = 0.f, y = 0.f;
-	float w = 0.f, h = 0.f;
+	std::array<float, 8> vertices;
 
 };
 
 struct SpriteCommand {
 	Texture2D* texture;
 
-	float x = 0.f;
-	float y = 0.f;
+	std::array<float, 8> positions;
 };
 
 

@@ -171,31 +171,42 @@ void Renderer2D::SubmitQuad(const Vec2& a, const Vec2& b, const Vec2& c, const V
 }
 
 
-void Renderer2D::SubmitRect(float x, float y, float w, float h, const Color3& color, int layer) {
+void Renderer2D::SubmitRect(const Vec2& a, const Vec2& b, const Vec2& c, const Vec2& d, const Color3& color, int layer) {
+
+	std::array<float, 8> vertices{
+		a.x, a.y,
+		b.x, b.y,
+		c.x, c.y,
+		d.x, d.y
+	};
 
 	RenderCommand cmd{};
 	cmd.type = CommandType::Rect;
 	cmd.useShape = true;
 	cmd.layer = layer;
-	cmd.rect.x = x;
-	cmd.rect.y = y;
-	cmd.rect.w = w;
-	cmd.rect.h = h;
+	cmd.quad.vertices = vertices;
 	cmd.color = color;
 
 	renderCommands.push_back(cmd);
 }
 
 
-void Renderer2D::SubmitSprite(Texture2D* texture, float x, float y, const Color3& color, int layer) {
+void Renderer2D::SubmitSprite(Texture2D* texture, const Vec2& a, const Vec2& b, const Vec2& c, const Vec2& d, const Color3& color, int layer) {
+
+	std::array<float, 8> positions{
+		a.x, a.y,
+		b.x, b.y,
+		c.x, c.y,
+		d.x, d.y
+	};
+
 	RenderCommand cmd{};
 	cmd.type = CommandType::Sprite;
 	cmd.useShape = false;
 	cmd.layer = layer;
 	cmd.sprite.texture = texture;
 	cmd.color = color;
-	cmd.sprite.x = x;
-	cmd.sprite.y = y;
+	cmd.sprite.positions = positions;
 
 	renderCommands.push_back(cmd);
 }
@@ -292,7 +303,7 @@ void Renderer2D::EndFrame() {
 			case CommandType::Rect: {
 				
 
-				auto& d = cmd.rect;
+				auto& v = cmd.rect.vertices;
 
 				//expected
 				//4-----3
@@ -300,15 +311,15 @@ void Renderer2D::EndFrame() {
 				//|     |
 				//1-----2
 				float final_vertices[]{
-					//triangle1
-					d.x, d.y,
-					d.x + d.w, d.y,
-					d.x + d.w, d.y + d.h,
+					//triangle 1
+					v[0], v[1],
+					v[2], v[3],
+					v[4], v[5],
 
 					//triangle2
-					d.x, d.y,
-					d.x + d.w, d.y + d.h,
-					d.x, d.y + d.h
+					v[0], v[1],
+					v[4], v[5],
+					v[6], v[7]
 				};
 
 			
@@ -321,7 +332,7 @@ void Renderer2D::EndFrame() {
 
 
 			case CommandType::Sprite: {
-				auto& d = cmd.sprite;
+				auto& v = cmd.sprite.positions;
 				auto& tex = cmd.sprite.texture;
 
 				//expected
@@ -331,14 +342,14 @@ void Renderer2D::EndFrame() {
 				//1-----2
 				float final_vertices[]{
 					//triangle1
-					d.x, d.y - tex->height, 0.0f, 1.0f,
-					d.x + tex->width, d.y - tex->height, 1.0f, 1.0f,
-					d.x + tex->width, d.y, 1.0f, 0.0f,
+					v[0], v[1], 0.0f, 1.0f,
+					v[2], v[3], 1.0f, 1.0f,
+					v[4], v[5], 1.0f, 0.0f,
 
 					//triangle2
-					d.x, d.y - tex->height, 0.0f, 1.0f,
-					d.x + tex->width, d.y, 1.0f, 0.0f,
-					d.x, d.y, 0.0f, 0.0f
+					v[0], v[1], 0.0f, 1.0f,
+					v[4], v[5], 1.0f, 0.0f,
+					v[6], v[7], 0.0f, 0.0f
 				};
 
 				glUniform2f(screenSizeLoc2, static_cast<float>(gEngine->GetScreenW()), static_cast<float>(gEngine->GetScreenH()));

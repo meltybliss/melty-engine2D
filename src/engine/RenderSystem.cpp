@@ -1,6 +1,26 @@
 #include "engine/Engine.h"
 #include "engine/RenderSystem.h"
 
+static Vec2 RotateVec2(const Vec2& v, float degrees) {
+	float radians = degrees * 3.14159265f / 180.0f;
+	float c = std::cos(radians);
+	float s = std::sin(radians);
+	return {
+		v.x * c - v.y * s,
+		v.x * s + v.y * c
+	};
+}
+
+static Vec2 TransformPoint2D(const Vec2& local, const TransformComponent& tr) {
+	Vec2 scaled{
+		local.x * tr.Scale.x,
+		local.y * tr.Scale.y
+	};
+
+	Vec2 rotated = RotateVec2(scaled, tr.rotation);
+	return tr.position + rotated;
+}
+
 
 void RenderSystem::Render(EntityManager& em) {
 	auto& renderer = gEngine->GetRenderer2D();
@@ -21,11 +41,13 @@ void RenderSystem::Render(EntityManager& em) {
 				case ShapeType::Triangle: {
 					auto& d = rd.data.triangle;
 
-					renderer.SubmitTriangle(tr.position + d.a,
-						tr.position + d.b,
-						tr.position + d.c,
+					renderer.SubmitTriangle(
+						TransformPoint2D(d.a, tr),
+						TransformPoint2D(d.b, tr),
+						TransformPoint2D(d.c, tr),
 						rd.color,
-						rd.layer);
+						rd.layer
+					);
 
 					break;
 				}
@@ -33,12 +55,14 @@ void RenderSystem::Render(EntityManager& em) {
 				case ShapeType::Quad: {
 					auto& d = rd.data.quad;
 
-					renderer.SubmitQuad(tr.position + d.a,
-						tr.position + d.b,
-						tr.position + d.c,
-						tr.position + d.d,
+					renderer.SubmitQuad(
+						TransformPoint2D(d.a, tr),
+						TransformPoint2D(d.b, tr),
+						TransformPoint2D(d.c, tr),
+						TransformPoint2D(d.d, tr),
 						rd.color,
-						rd.layer);
+						rd.layer
+					);
 
 					break;
 
@@ -47,11 +71,20 @@ void RenderSystem::Render(EntityManager& em) {
 
 				case ShapeType::Rect: {
 					auto& d = rd.data.rect;
+					float w = d.width;
+					float h = d.height;
 
-					renderer.SubmitRect(tr.position.x,
-						tr.position.y,
-						d.width * tr.Scale.x,
-						d.height * tr.Scale.y,
+					//the center is the reference point
+					Vec2 p1 = { -w * 0.5f, -h * 0.5f };
+					Vec2 p2 = { w * 0.5f, -h * 0.5f };
+					Vec2 p3 = { w * 0.5f, h * 0.5f };
+					Vec2 p4 = { -w * 0.5f, h * 0.5f };
+
+					renderer.SubmitRect(
+						TransformPoint2D(p1, tr),
+						TransformPoint2D(p2, tr),
+						TransformPoint2D(p3, tr),
+						TransformPoint2D(p4, tr),
 						rd.color,
 						rd.layer);
 
@@ -63,10 +96,19 @@ void RenderSystem::Render(EntityManager& em) {
 		}
 		else if (rd.kind == RenderKind::Sprite) {
 			auto& d = rd.sprite;
+			float w = d.texture->width;
+			float h = d.texture->height;
+
+			Vec2 p1 = { -w * 0.5f, -h * 0.5f };
+			Vec2 p2 = { w * 0.5f, -h * 0.5f };
+			Vec2 p3 = { w * 0.5f, h * 0.5f };
+			Vec2 p4 = { -w * 0.5f, h * 0.5f};
 
 			renderer.SubmitSprite(d.texture,
-				tr.position.x,
-				tr.position.y,
+				TransformPoint2D(p1, tr),
+				TransformPoint2D(p2, tr),
+				TransformPoint2D(p3, tr),
+				TransformPoint2D(p4, tr),
 				rd.color,
 				rd.layer);
 
