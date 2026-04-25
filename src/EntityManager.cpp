@@ -49,34 +49,35 @@ void EntityManager::DestroyEntity(int entity) {
 	entity_to_collider_idx[entity] = -1;
 }
 
-
-void EntityManager::AddRenderer(int entity) {
+template<>
+void EntityManager::AddComponent<RendererComponent>(int entity) {
 	if (entity_to_renderer_idx[entity] != -1) return;
 
 	RendererComponent cmp{};
 	cmp.visible = true;
-	
+
 	rendererComps.push_back(cmp);
-	
+
 	entity_to_renderer_idx[entity] = rendererComps.size() - 1;
 
 	entity_to_mask[entity] |= static_cast<uint64_t>(ComponentBit::RENDERER);
 }
 
-
-void EntityManager::AddTransform(int entity) {
+template<>
+void EntityManager::AddComponent<TransformComponent>(int entity) {
 	if (entity_to_transform_idx[entity] != -1) return;
 
 	TransformComponent cmp{};
-	
+
 	transforms.push_back(cmp);
 
 	entity_to_transform_idx[entity] = transforms.size() - 1;
-	
+
 	entity_to_mask[entity] |= static_cast<uint64_t>(ComponentBit::TRANSFORM);
 }
 
-void EntityManager::AddCollider(int entity) {
+template<>
+void EntityManager::AddComponent<ColliderComponent>(int entity) {
 	if (entity_to_collider_idx[entity] != -1) return;
 
 	ColliderComponent cmp{};
@@ -86,22 +87,86 @@ void EntityManager::AddCollider(int entity) {
 	entity_to_collider_idx[entity] = colliders.size() - 1;
 
 	entity_to_mask[entity] |= static_cast<uint64_t>(ComponentBit::COLLIDER);
-
 }
 
 
-RendererComponent& EntityManager::GetRenderer(int entity) {
+template<>
+void EntityManager::RemoveComponent<RendererComponent>(int entity) {
+	int idx = entity_to_renderer_idx[entity];
+
+	rendererComps[idx].active = false;
+
+	entity_to_renderer_idx[entity] = -1;
+
+}
+
+template<>
+void EntityManager::RemoveComponent<TransformComponent>(int entity) {
+	int idx = entity_to_transform_idx[entity];
+
+	transforms[idx].active = false;
+
+	entity_to_transform_idx[entity] = -1;
+}
+
+template<>
+void EntityManager::RemoveComponent<ColliderComponent>(int entity) {
+	int idx = entity_to_collider_idx[entity];
+
+	colliders[idx].active = false;
+
+	entity_to_transform_idx[entity] = -1;
+}
+
+
+template<>
+RendererComponent& EntityManager::GetComponent<RendererComponent>(int entity) {
 	return rendererComps[entity_to_renderer_idx[entity]];
 }
 
-
-TransformComponent& EntityManager::GetTransform(int entity) {
+template<>
+TransformComponent& EntityManager::GetComponent<TransformComponent>(int entity) {
 	return transforms[entity_to_transform_idx[entity]];
 }
 
-ColliderComponent& EntityManager::GetCollider(int entity) {
+template<>
+ColliderComponent& EntityManager::GetComponent<ColliderComponent>(int entity) {
 	return colliders[entity_to_collider_idx[entity]];
 }
+
+
+template<>
+bool EntityManager::HasComponent<RendererComponent>(int entity) const {
+	if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+	const uint64_t mask = entity_to_mask[entity];
+	const uint64_t target = static_cast<uint64_t>(ComponentBit::RENDERER);
+
+	return (mask & target) == target;
+}
+
+
+template<>
+bool EntityManager::HasComponent<TransformComponent>(int entity) const {
+	if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+	const uint64_t mask = entity_to_mask[entity];
+	const uint64_t target = static_cast<uint64_t>(ComponentBit::TRANSFORM);
+
+	return (mask & target) == target;
+}
+
+
+template<>
+bool EntityManager::HasComponent<ColliderComponent>(int entity) const {
+	if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+	const uint64_t mask = entity_to_mask[entity];
+	const uint64_t target = static_cast<uint64_t>(ComponentBit::COLLIDER);
+
+	return (mask & target) == target;
+}
+
 
 int EntityManager::GetAllEntitiesCount() const {
 	return entitiesCount;
@@ -171,3 +236,16 @@ std::optional<int> EntityManager::GetEntityFromName(const std::string& name) {
 	return it->second;
 }
 
+
+std::vector<int> EntityManager::GetAliveEntities() const {
+	std::vector<int> result;
+
+	for (int i = 0; i < isAlive.size(); i++) {
+		if (isAlive[i] == 0) continue;
+
+		result.push_back(i);
+	}
+
+	return result;
+
+}

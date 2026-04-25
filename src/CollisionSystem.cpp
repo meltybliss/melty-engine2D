@@ -5,8 +5,8 @@ void CollisionSystem::Tick(EntityManager& em) {
 	int count = em.GetAllEntitiesCount();
 	for (size_t i = 0; i < count; i++) {
 		if (em.IsAlive(i) == 0) continue;
-		if (!em.HasTransform(i)) continue;
-		if (!em.HasCollider(i)) continue;
+		if (!em.HasComponent<TransformComponent>(i)) continue;
+		if (!em.HasComponent<ColliderComponent>(i)) continue;
 
 
 		AABB box1 = MakeAABB(em, i);
@@ -14,16 +14,16 @@ void CollisionSystem::Tick(EntityManager& em) {
 
 		for (int j = i + 1; j < count; j++) {
 			if (em.IsAlive(j) == 0) continue;
-			if (!em.HasTransform(j)) continue;
-			if (!em.HasCollider(j)) continue;
+			if (!em.HasComponent<TransformComponent>(j)) continue;
+			if (!em.HasComponent<ColliderComponent>(j)) continue;
 
 			AABB box2 = MakeAABB(em, j);
 			
 
 			if (CheckOverlap(box1, box2)) {
 
-				auto& col1 = em.GetCollider(i);
-				auto& col2 = em.GetCollider(j);
+				auto& col1 = em.GetComponent<ColliderComponent>(i);
+				auto& col2 = em.GetComponent<ColliderComponent>(j);
 
 				if (col1.isTrigger || col2.isTrigger) {
 
@@ -32,7 +32,7 @@ void CollisionSystem::Tick(EntityManager& em) {
 					float overlapX = std::min(box1.max.x, box2.max.x) - std::max(box1.min.x, box2.min.x);
 					float overlapY = std::min(box1.max.y, box2.max.y) - std::max(box1.min.y, box2.min.y);
 
-					auto& tr1 = em.GetTransform(i);
+					auto& tr1 = em.GetComponent<TransformComponent>(i);
 
 					float center1X = (box1.min.x + box1.max.x) * 0.5f;
 					float center2X = (box2.min.x + box2.max.x) * 0.5f;
@@ -56,8 +56,8 @@ void CollisionSystem::Tick(EntityManager& em) {
 }
 
 AABB CollisionSystem::MakeAABB(EntityManager& em, int entity) {
-	auto& tr = em.GetTransform(entity);
-	auto& cl = em.GetCollider(entity);
+	auto& tr = em.GetComponent<TransformComponent>(entity);
+	auto& cl = em.GetComponent<ColliderComponent>(entity);
 
 	AABB box;
 

@@ -7,11 +7,11 @@ void RenderSystem::Render(EntityManager& em) {
 
 	for (size_t i = 0; i < em.GetAllEntitiesCount(); i++) {
 		if (em.IsAlive(i) == 0) continue;
-		if (!em.HasTransform(i)) continue;
-		if (!em.HasRenderer(i)) continue;
+		if (!em.HasComponent<TransformComponent>(i)) continue;
+		if (!em.HasComponent<RendererComponent>(i)) continue;
 
-		auto& rd = em.GetRenderer(i);
-		auto& tr = em.GetTransform(i);
+		auto& rd = em.GetComponent<RendererComponent>(i);
+		auto& tr = em.GetComponent<TransformComponent>(i);
 
 		if (!rd.visible) continue;
 

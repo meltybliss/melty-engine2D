@@ -28,45 +28,23 @@ public:
 	int CreateEntity();
 	void DestroyEntity(int entity);
 
-	void AddRenderer(int entity);
-	void AddTransform(int entity);
-	void AddCollider(int entity);
+	template<typename T>
+	void RemoveComponent(int entity);
 
-	RendererComponent& GetRenderer(int entity);
-	TransformComponent& GetTransform(int entity);
-	ColliderComponent& GetCollider(int entity);
+	template<typename T>
+	void AddComponent(int entity);
+
+	template<typename T>
+	T& GetComponent(int entity);
+
 	
 	int GetAllEntitiesCount() const;
 	uint8_t IsAlive(int entity) const {
 		return isAlive[entity];
 	}
 
-	bool HasTransform(int entity) const {
-		if (entity < 0 || entity >= entity_to_mask.size()) return false;
-
-		const uint64_t mask = entity_to_mask[entity];
-		const uint64_t target = static_cast<uint64_t>(ComponentBit::TRANSFORM);
-
-		return (mask & target) == target;
-	}
-
-	bool HasRenderer(int entity) const {
-		if (entity < 0 || entity >= entity_to_mask.size()) return false;
-
-		const uint64_t mask = entity_to_mask[entity];
-		const uint64_t target = static_cast<uint64_t>(ComponentBit::RENDERER);
-
-		return (mask & target) == target;
-	}
-
-	bool HasCollider(int entity) const {
-		if (entity < 0 || entity >= entity_to_mask.size()) return false;
-
-		const uint64_t mask = entity_to_mask[entity];
-		const uint64_t target = static_cast<uint64_t>(ComponentBit::COLLIDER);
-
-		return (mask & target) == target;
-	}
+	template<typename T>
+	bool HasComponent(int entity) const;
 
 	const std::string& GetName(int entity) const;
 	const std::string& GetTag(int entity) const;
@@ -75,6 +53,15 @@ public:
 
 	void SetName(int entity, const std::string& name);
 	void SetTag(int entity, const std::string& tag);
+
+	std::vector<int> GetAliveEntities() const;
+
+	uint64_t GetEntityMask(int entity) const {
+		if (entity < 0 || entity > entity_to_mask.size()) return 0ULL;
+
+		return entity_to_mask[entity];
+
+	}
 private:
 
 
