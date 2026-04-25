@@ -34,6 +34,9 @@
     <Filter Include="libs">
       <UniqueIdentifier>{8b8c44b4-9587-44d5-a4c1-e1d82367e736}</UniqueIdentifier>
     </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{725c4745-e57f-4550-b158-1b1008e87e8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="third_party\glad.c">
@@ -236,7 +239,7 @@
     <ClInclude Include="include\editor\EditorScene.h">
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
-    <ClInclude Include="include\engine\Behaivor.h">
+    <ClInclude Include="include\engine\Behaviour.h">
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
     <ClInclude Include="include\engine\ScriptComponent.h">
@@ -247,6 +250,12 @@
     </ClInclude>
     <ClInclude Include="include\engine\SceneLogic.h">
       <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\TestScene.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game\TestSceneLogic.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

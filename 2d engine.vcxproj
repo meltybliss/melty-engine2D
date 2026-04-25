@@ -163,7 +163,7 @@
     <ClInclude Include="include\editor\EditTransformCommand.h" />
     <ClInclude Include="include\editor\RenameEntityCommand.h" />
     <ClInclude Include="include\engine\BaseScene.h" />
-    <ClInclude Include="include\engine\Behaivor.h" />
+    <ClInclude Include="include\engine\Behaviour.h" />
     <ClInclude Include="include\engine\ColliderComp.h" />
     <ClInclude Include="include\engine\CollisionSystem.h" />
     <ClInclude Include="include\engine\Color.h" />
@@ -187,6 +187,8 @@
     <ClInclude Include="include\engine\TextureManager.h" />
     <ClInclude Include="include\engine\TransformComp.h" />
     <ClInclude Include="include\engine\Vec2.h" />
+    <ClInclude Include="include\game\TestScene.h" />
+    <ClInclude Include="include\game\TestSceneLogic.h" />
     <ClInclude Include="third_party\glad\glad.h" />
     <ClInclude Include="third_party\GLFW\glfw3.h" />
     <ClInclude Include="third_party\GLFW\glfw3native.h" />

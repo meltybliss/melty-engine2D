@@ -9,18 +9,18 @@ void ScriptSystem::Tick(EntityManager& em, float dt) {
 		if (!em.HasComponent<ScriptComponent>(i)) continue;
 
 		auto& sc = em.GetComponent<ScriptComponent>(i);
-		auto& behaivor = sc.behaivor;
+		auto& behaviour = sc.behaviour;
 	
-		if (!behaivor) continue;
+		if (!behaviour) continue;
 
 		if (!sc.started) {
 			sc.started = true;
-			behaivor->Bind(&em, i);
-			behaivor->BeginPlay();
+			behaviour->Bind(&em, i);
+			behaviour->BeginPlay();
 		}
 
 
-		behaivor->Tick(dt);
+		behaviour->Tick(dt);
 	}
 
 

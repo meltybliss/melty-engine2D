@@ -1,9 +1,11 @@
 #pragma once
-#include "EntityManager.h"
 
-class Behaivor {
+class EntityManager;
+
+
+class Behaviour {
 public:
-	virtual ~Behaivor() = default;
+	virtual ~Behaviour() = default;
 	virtual void BeginPlay() = 0;
 	virtual void Tick(float dt) = 0;
 
@@ -13,6 +15,6 @@ public:
 	}
 
 protected:
-	EntityManager* m_em;
+	EntityManager* m_em = nullptr;
 	int entity = -1;
 };

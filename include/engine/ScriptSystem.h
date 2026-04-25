@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Behaivor.h"
+#include "Behaviour.h"
 #include "EntityManager.h"
 #include <memory>
 

@@ -34,7 +34,7 @@ public:
 	void RemoveComponent(int entity);
 
 	template<typename T>
-	void AddComponent(int entity);
+	T& AddComponent(int entity);
 
 	template<typename T>
 	T& GetComponent(int entity);

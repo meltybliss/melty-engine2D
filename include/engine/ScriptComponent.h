@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Component.h"
-#include "Behaivor.h"
+#include "Behaviour.h"
 #include <memory>
 
 
 class ScriptComponent : public Component {
 public:
 
-	std::unique_ptr<Behaivor> behaivor;
+	std::unique_ptr<Behaviour> behaviour;
 	bool started = false;
 
 };

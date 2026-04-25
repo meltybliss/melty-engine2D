@@ -8,48 +8,92 @@
 #include "engine/ColliderComp.h"
 #include "engine/TextureAPI.h"
 
+
+EditorScene::EditorScene(std::unique_ptr<BaseScene> targetScene) :
+    editingTarget(std::move(targetScene)) {
+
+}
+
 void EditorScene::Enter() {
     selectedEntity = -1;
     editingName.clear();
-    wasEditingTransform = false;
+    /**wasEditingTransform = false;
 
     int e = CreateRectEntity({ 100.0f, 100.0f }, 80.0f, 80.0f, { 1.0f, 0.0f, 0.0f }, 0);
     entityManager.SetName(e, "Rect 1");
     selectedEntity = e;
-    editingName = entityManager.GetName(e);
+    editingName = entityManager.GetName(e);**/
+
+    editingTexturePath.clear();
+
+    if (editingTarget) {
+        editingTarget->Enter();
+    }
 }
 
 void EditorScene::Exit() {
 }
 
 void EditorScene::Tick(float dt) {
+    if (isPlaying && editingTarget) {
+        editingTarget->MainTick(dt);
+    }
 }
 
 void EditorScene::Render() {
-    BaseScene::Render();
+    if (editingTarget) {
+        editingTarget->Render();
+    }
+
 
     DrawHierarchy();
     DrawInspector();
+    DrawToolbar();
+}
+
+
+void EditorScene::DrawToolbar() {
+    ImGui::Begin("Toolbar");
+
+    if (!isPlaying) {
+        if (ImGui::Button("Play")) {
+            isPlaying = true;
+        }
+    }
+    else {
+        if (ImGui::Button("Stop")) {
+            isPlaying = false;
+            if (editingTarget) {
+                editingTarget->StopPlay();
+            }
+        }
+    }
+
+    ImGui::End();
 }
 
 void EditorScene::DrawHierarchy() {
+    if (!editingTarget) return;
+
+    auto& em = editingTarget->GetEntityManager();
+
     ImGui::Begin("Hierarchy");
 
     if (ImGui::Button("Add Empty")) {
-        int e = entityManager.CreateEntity();
-        entityManager.AddComponent<TransformComponent>(e);
-        entityManager.SetName(e, "Empty " + std::to_string(e));
+        int e = em.CreateEntity();
+        em.AddComponent<TransformComponent>(e);
+        em.SetName(e, "Empty " + std::to_string(e));
 
         selectedEntity = e;
-        editingName = entityManager.GetName(e);
+        editingName = em.GetName(e);
     }
 
     if (ImGui::Button("Add Rect")) {
-        int e = CreateRectEntity({ 100.0f, 100.0f }, 80.0f, 80.0f, { 0.2f, 0.8f, 0.3f }, 0);
-        entityManager.SetName(e, "Rect " + std::to_string(e));
+        int e = editingTarget->AddRectEntity({ 100.0f, 100.0f }, 80.0f, 80.0f, { 0.2f, 0.8f, 0.3f }, 0);
+        em.SetName(e, "Rect " + std::to_string(e));
 
         selectedEntity = e;
-        editingName = entityManager.GetName(e);
+        editingName = em.GetName(e);
     }
 
     char spritePathBuf[256]{};
@@ -60,31 +104,30 @@ void EditorScene::DrawHierarchy() {
     }
 
     if (ImGui::Button("Add Sprite")) {
-        int e = CreateSpriteEntity(newSpritePath, { 100.0f, 100.0f }, 0);
+        int e = editingTarget->AddSpriteEntity(newSpritePath, { 100.0f, 100.0f }, 0);
 
         if (e != -1) {
-            entityManager.SetName(e, "Sprite " + std::to_string(e));
+            em.SetName(e, "Sprite " + std::to_string(e));
             selectedEntity = e;
-            editingName = entityManager.GetName(e);
+            editingName = em.GetName(e);
         }
     }
 
-
     ImGui::Separator();
 
-    auto alive = entityManager.GetAliveEntities();
+    auto alive = em.GetAliveEntities();
     for (int e : alive) {
-        std::string label = entityManager.GetName(e);
+        std::string label = em.GetName(e);
         if (label.empty()) {
             label = "Entity " + std::to_string(e);
         }
 
         if (ImGui::Selectable(label.c_str(), selectedEntity == e)) {
             selectedEntity = e;
-            editingName = entityManager.GetName(e);
+            editingName = em.GetName(e);
 
-            if (entityManager.HasComponent<RendererComponent>(e)) {
-                auto& rd = entityManager.GetComponent<RendererComponent>(e);
+            if (em.HasComponent<RendererComponent>(e)) {
+                auto& rd = em.GetComponent<RendererComponent>(e);
                 if (rd.kind == RenderKind::Sprite) {
                     editingTexturePath = rd.sprite.texturePath;
                 }
@@ -102,9 +145,13 @@ void EditorScene::DrawHierarchy() {
 }
 
 void EditorScene::DrawInspector() {
+    if (!editingTarget) return;
+
+    auto& em = editingTarget->GetEntityManager();
+
     ImGui::Begin("Inspector");
 
-    if (selectedEntity == -1 || !entityManager.IsAlive(selectedEntity)) {
+    if (selectedEntity == -1 || !em.IsAlive(selectedEntity)) {
         ImGui::Text("No entity selected");
         ImGui::End();
         return;
@@ -121,19 +168,19 @@ void EditorScene::DrawInspector() {
     }
 
     if (ImGui::IsItemDeactivatedAfterEdit()) {
-        std::string oldName = entityManager.GetName(selectedEntity);
+        std::string oldName = em.GetName(selectedEntity);
         std::string newName = editingName;
 
         if (oldName != newName) {
             commandStack.Do(std::make_unique<RenameEntityCommand>(
-                entityManager, selectedEntity, oldName, newName
+                em, selectedEntity, oldName, newName
             ));
         }
     }
 
     // transform
-    if (entityManager.HasComponent<TransformComponent>(selectedEntity)) {
-        auto& tr = entityManager.GetComponent<TransformComponent>(selectedEntity);
+    if (em.HasComponent<TransformComponent>(selectedEntity)) {
+        auto& tr = em.GetComponent<TransformComponent>(selectedEntity);
 
         ImGui::Separator();
         ImGui::Text("Transform");
@@ -172,19 +219,21 @@ void EditorScene::DrawInspector() {
                 tr = oldValue;
 
                 commandStack.Do(std::make_unique<EditTransformCommand>(
-                    entityManager, selectedEntity, oldValue, newValue
+                    em, selectedEntity, oldValue, newValue
                 ));
             }
         }
 
         if (ImGui::Button("Remove Transform")) {
-            entityManager.RemoveComponent<TransformComponent>(selectedEntity);
+            em.RemoveComponent<TransformComponent>(selectedEntity);
+            ImGui::End();
+            return;
         }
     }
 
     // renderer
-    if (entityManager.HasComponent<RendererComponent>(selectedEntity)) {
-        auto& rd = entityManager.GetComponent<RendererComponent>(selectedEntity);
+    if (em.HasComponent<RendererComponent>(selectedEntity)) {
+        auto& rd = em.GetComponent<RendererComponent>(selectedEntity);
 
         ImGui::Separator();
         ImGui::Text("Renderer");
@@ -239,7 +288,7 @@ void EditorScene::DrawInspector() {
                     rd.data.quad.c = { 32.0f,  32.0f };
                     rd.data.quad.d = { -32.0f,  32.0f };
                 }
-                else if (typeIndex == 2) {
+                else {
                     rd.type = ShapeType::Rect;
                     rd.data.rect.width = 64.0f;
                     rd.data.rect.height = 64.0f;
@@ -286,7 +335,7 @@ void EditorScene::DrawInspector() {
         }
 
         if (ImGui::Button("Remove Renderer")) {
-            entityManager.RemoveComponent<RendererComponent>(selectedEntity);
+            em.RemoveComponent<RendererComponent>(selectedEntity);
             editingTexturePath.clear();
             ImGui::End();
             return;
@@ -305,15 +354,15 @@ void EditorScene::DrawInspector() {
 
             commandStack.Do(
                 std::make_unique<AddComponentCommand<RendererComponent>>(
-                    entityManager, selectedEntity, rd
+                    em, selectedEntity, rd
                 )
             );
         }
     }
 
     // collider
-    if (entityManager.HasComponent<ColliderComponent>(selectedEntity)) {
-        auto& cl = entityManager.GetComponent<ColliderComponent>(selectedEntity);
+    if (em.HasComponent<ColliderComponent>(selectedEntity)) {
+        auto& cl = em.GetComponent<ColliderComponent>(selectedEntity);
 
         ImGui::Separator();
         ImGui::Text("Collider");
@@ -323,7 +372,9 @@ void EditorScene::DrawInspector() {
         ImGui::Checkbox("Is Trigger", &cl.isTrigger);
 
         if (ImGui::Button("Remove Collider")) {
-            entityManager.RemoveComponent<ColliderComponent>(selectedEntity);
+            em.RemoveComponent<ColliderComponent>(selectedEntity);
+            ImGui::End();
+            return;
         }
     }
     else {
@@ -334,7 +385,7 @@ void EditorScene::DrawInspector() {
 
             commandStack.Do(
                 std::make_unique<AddComponentCommand<ColliderComponent>>(
-                    entityManager, selectedEntity, cl
+                    em, selectedEntity, cl
                 )
             );
         }
