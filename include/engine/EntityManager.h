@@ -40,6 +40,7 @@ public:
 	
 	int GetAllEntitiesCount() const;
 	uint8_t IsAlive(int entity) const {
+		if (entity < 0 || entity >= (int)entity_to_mask.size()) return 0;
 		return isAlive[entity];
 	}
 
@@ -57,7 +58,7 @@ public:
 	std::vector<int> GetAliveEntities() const;
 
 	uint64_t GetEntityMask(int entity) const {
-		if (entity < 0 || entity > entity_to_mask.size()) return 0ULL;
+		if (entity < 0 || entity >= (int)entity_to_mask.size()) return 0ULL;
 
 		return entity_to_mask[entity];
 

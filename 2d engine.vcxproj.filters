@@ -19,43 +19,58 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{bbea5507-b4b4-401a-8798-47873aa78fb0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\engine">
+      <UniqueIdentifier>{1f44a1d1-0330-400e-8c2a-06e0b4a84892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\editor">
+      <UniqueIdentifier>{c299c8c4-b0aa-4238-8119-e2b3242048f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\engine">
+      <UniqueIdentifier>{7108f980-f92f-47c6-b40a-1a331a5f4c69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\editor">
+      <UniqueIdentifier>{1fbc7105-c6bb-4cb6-9fb6-abf5ec511d3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="third_party\glad.c">
       <Filter>third_party</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\BaseScene.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer2D.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\CollisionSystem.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\Engine.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\EntityManager.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\EntityManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\Input.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\RenderSystem.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\InputAPI.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\BaseScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\main.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\InputAPI.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\Renderer2D.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\TextureManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\RenderSystem.cpp">
+      <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\CollisionSystem.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\engine\SceneManager.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\TextureManager.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\CommandStack.cpp">
+      <Filter>ソース ファイル\editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,68 +89,77 @@
     <ClInclude Include="third_party\stb\stb_image.h">
       <Filter>third_party</Filter>
     </ClInclude>
-    <ClInclude Include="include\Engine.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\BaseScene.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\Renderer2D.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\ColliderComp.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\Vec2.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\CollisionSystem.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\RenderCommand.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\Color.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\Color.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\Component.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\Input.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\Engine.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\IScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\EntityManager.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\GameObject.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\Component.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\Input.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\RendererComp.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\InputAPI.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameObject.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\IScene.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\TransformComp.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\RenderCommand.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\EntityManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\Renderer2D.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\RenderSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\RendererComp.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\BaseScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\RenderSystem.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\InputAPI.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\SceneManager.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\Texture2D.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\Texture2D.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\TextureManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\TextureAPI.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\TextureAPI.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\TextureManager.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\ColliderComp.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\TransformComp.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\CollisionSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="include\engine\Vec2.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\editor\AddComponentCommand.h">
+      <Filter>ヘッダー ファイル\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\editor\CommandStack.h">
+      <Filter>ヘッダー ファイル\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\editor\ICommand.h">
+      <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

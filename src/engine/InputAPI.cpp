@@ -1,6 +1,6 @@
-#include "InputAPI.h"
-#include "Input.h"
-#include "Engine.h"
+#include "engine/InputAPI.h"
+#include "engine/Input.h"
+#include "engine/Engine.h"
 
 bool IsPressed(int key) {
 	return gEngine->GetInput().IsPressed(key);

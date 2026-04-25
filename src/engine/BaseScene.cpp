@@ -1,5 +1,6 @@
-#include "BaseScene.h"
-#include "TextureAPI.h"
+#include "engine/BaseScene.h"
+#include "engine/TextureAPI.h"
+
 
 
 void BaseScene::Render() {
@@ -12,6 +13,8 @@ int BaseScene::CreateRectEntity(const Vec2& pos, float w, float h, const Color3&
 
 	entityManager.AddComponent<TransformComponent>(e);
 	entityManager.AddComponent<RendererComponent>(e);
+
+
 
 	auto& rd = entityManager.GetComponent<RendererComponent>(e);
 	rd.data.rect.width = w;
