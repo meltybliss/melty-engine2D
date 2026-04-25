@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\editor\CommandStack.cpp" />
+    <ClCompile Include="src\editor\EditorScene.cpp" />
     <ClCompile Include="src\engine\BaseScene.cpp" />
     <ClCompile Include="src\engine\CollisionSystem.cpp" />
     <ClCompile Include="src\engine\Engine.cpp" />
@@ -148,7 +149,10 @@
   <ItemGroup>
     <ClInclude Include="include\editor\AddComponentCommand.h" />
     <ClInclude Include="include\editor\CommandStack.h" />
+    <ClInclude Include="include\editor\EditorScene.h" />
     <ClInclude Include="include\editor\ICommand.h" />
+    <ClInclude Include="include\editor\MoveEntityCommand.h" />
+    <ClInclude Include="include\editor\RenameEntityCommand.h" />
     <ClInclude Include="include\engine\BaseScene.h" />
     <ClInclude Include="include\engine\ColliderComp.h" />
     <ClInclude Include="include\engine\CollisionSystem.h" />

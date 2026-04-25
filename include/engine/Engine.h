@@ -18,6 +18,7 @@ public:
 	Renderer2D& GetRenderer2D() { return renderer; }
 	Input& GetInput() { return input; }
 	TextureManager& GetTextureManager() { return textureM; }
+	SceneManager& GetSceneManager() { return sceneM; }
 private:
 	GLFWwindow* m_window = nullptr;
 	Renderer2D renderer;

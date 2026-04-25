@@ -72,6 +72,9 @@
     <ClCompile Include="src\editor\CommandStack.cpp">
       <Filter>ソース ファイル\editor</Filter>
     </ClCompile>
+    <ClCompile Include="src\editor\EditorScene.cpp">
+      <Filter>ソース ファイル\editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="third_party\glad\glad.h">
@@ -159,6 +162,15 @@
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
     <ClInclude Include="include\editor\ICommand.h">
+      <Filter>ヘッダー ファイル\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\editor\EditorScene.h">
+      <Filter>ヘッダー ファイル\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\editor\RenameEntityCommand.h">
+      <Filter>ヘッダー ファイル\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\editor\MoveEntityCommand.h">
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
   </ItemGroup>
