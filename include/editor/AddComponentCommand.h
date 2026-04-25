@@ -6,24 +6,24 @@ template<typename T>
 class AddComponentCommand : public ICommand {
 public:
 
-	AddComponentCommand(EntityManager& em, int entity, T& initialValue) : m_em(em), m_entity(entity),
+	AddComponentCommand(EntityManager& em, int entity, const T& initialValue = T{}) : m_em(em), m_entity(entity),
 		initialValue(initialValue) {};
 
 	void Execute() override {
 		if (added) return;
-		if (m_em.HasComponent<T>(entity)) return;
+		if (m_em.HasComponent<T>(m_entity)) return;
 
-		m_em.AddComponent<T>(entity);
-		m_em.GetComponent<T>(entity) = initialValue;
+		m_em.AddComponent<T>(m_entity);
+		m_em.GetComponent<T>(m_entity) = initialValue;
 
 		added = true;
 	}
 
 	void Undo() override {
 		if (!added) return;
-		if (!m_em.HasComponent<T>(entity)) return;
+		if (!m_em.HasComponent<T>(m_entity)) return;
 
-		m_em.RemoveComponent<T>(entity);
+		m_em.RemoveComponent<T>(m_entity);
 		added = false;
 	}
 

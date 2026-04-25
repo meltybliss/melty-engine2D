@@ -5,7 +5,7 @@
 void RenderSystem::Render(EntityManager& em) {
 	auto& renderer = gEngine->GetRenderer2D();
 
-	for (size_t i = 0; i < em.GetAllEntitiesCount(); i++) {
+	for (int i = 0; i < em.GetAllEntitiesCount(); i++) {
 		if (em.IsAlive(i) == 0) continue;
 		if (!em.HasComponent<TransformComponent>(i)) continue;
 		if (!em.HasComponent<RendererComponent>(i)) continue;

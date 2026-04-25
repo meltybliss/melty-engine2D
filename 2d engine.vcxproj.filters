@@ -31,6 +31,9 @@
     <Filter Include="ヘッダー ファイル\editor">
       <UniqueIdentifier>{1fbc7105-c6bb-4cb6-9fb6-abf5ec511d3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{8b8c44b4-9587-44d5-a4c1-e1d82367e736}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="third_party\glad.c">
@@ -74,6 +77,24 @@
     </ClCompile>
     <ClCompile Include="src\editor\EditorScene.cpp">
       <Filter>ソース ファイル\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui_draw.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui_impl_dx11.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui_impl_win32.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui_tables.cpp">
+      <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\imgui\imgui_widgets.cpp">
+      <Filter>third_party</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,6 +194,33 @@
     <ClInclude Include="include\editor\MoveEntityCommand.h">
       <Filter>ヘッダー ファイル\editor</Filter>
     </ClInclude>
+    <ClInclude Include="third_party\imgui\imconfig.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imgui.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imgui_impl_dx11.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imgui_impl_raylib.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imgui_impl_win32.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imgui_internal.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imstb_rectpack.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imstb_textedit.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\imgui\imstb_truetype.h">
+      <Filter>third_party</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\color2d.frag">
@@ -187,5 +235,10 @@
     <None Include="resources\shaders\sprite2d.vert">
       <Filter>shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\glfw3.lib">
+      <Filter>libs</Filter>
+    </Library>
   </ItemGroup>
 </Project>

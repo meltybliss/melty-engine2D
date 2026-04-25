@@ -145,6 +145,12 @@
     <ClCompile Include="src\engine\SceneManager.cpp" />
     <ClCompile Include="src\engine\TextureManager.cpp" />
     <ClCompile Include="third_party\glad.c" />
+    <ClCompile Include="third_party\imgui\imgui.cpp" />
+    <ClCompile Include="third_party\imgui\imgui_draw.cpp" />
+    <ClCompile Include="third_party\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="third_party\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="third_party\imgui\imgui_tables.cpp" />
+    <ClCompile Include="third_party\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\editor\AddComponentCommand.h" />
@@ -177,6 +183,15 @@
     <ClInclude Include="third_party\glad\glad.h" />
     <ClInclude Include="third_party\GLFW\glfw3.h" />
     <ClInclude Include="third_party\GLFW\glfw3native.h" />
+    <ClInclude Include="third_party\imgui\imconfig.h" />
+    <ClInclude Include="third_party\imgui\imgui.h" />
+    <ClInclude Include="third_party\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="third_party\imgui\imgui_impl_raylib.h" />
+    <ClInclude Include="third_party\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="third_party\imgui\imgui_internal.h" />
+    <ClInclude Include="third_party\imgui\imstb_rectpack.h" />
+    <ClInclude Include="third_party\imgui\imstb_textedit.h" />
+    <ClInclude Include="third_party\imgui\imstb_truetype.h" />
     <ClInclude Include="third_party\KHR\khrplatform.h" />
     <ClInclude Include="third_party\stb\stb_image.h" />
   </ItemGroup>
@@ -185,6 +200,9 @@
     <None Include="resources\shaders\color2d.vert" />
     <None Include="resources\shaders\sprite2d.frag" />
     <None Include="resources\shaders\sprite2d.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\glfw3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

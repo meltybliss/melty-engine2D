@@ -9,7 +9,7 @@ public:
 	void Render();
 
 	bool ChangeCurrentScene(std::unique_ptr<IScene> scene);
-	IScene* GetCurrentScene() const { curScene.get(); }
+	IScene* GetCurrentScene() const { return curScene.get(); }
 private:
 
 	std::unique_ptr<IScene> curScene = nullptr;
