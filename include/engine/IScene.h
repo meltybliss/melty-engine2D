@@ -7,7 +7,7 @@ public:
 	virtual ~IScene() = default;
 	virtual void Enter() = 0;
 	virtual void Exit() = 0;
-	virtual void Tick(float dt) = 0;
+	virtual void MainTick(float dt) = 0;
 	virtual void Render() = 0;
 
 

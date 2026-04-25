@@ -2,7 +2,7 @@
 
 void SceneManager::Tick(float dt) {
 	if (!curScene) return;
-	curScene->Tick(dt);
+	curScene->MainTick(dt);
 }
 
 void SceneManager::Render() {

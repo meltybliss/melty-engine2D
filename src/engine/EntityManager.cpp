@@ -6,6 +6,7 @@ int EntityManager::CreateEntity() {
 	if (entity_to_renderer_idx.size() <= id) entity_to_renderer_idx.resize(id + 1, -1);
 	if (entity_to_transform_idx.size() <= id) entity_to_transform_idx.resize(id + 1, -1);
 	if (entity_to_collider_idx.size() <= id) entity_to_collider_idx.resize(id + 1, -1);
+	if (entity_to_script_idx.size() <= id) entity_to_script_idx.resize(id + 1, -1);
 
 	entity_to_mask.push_back(0);
 	isAlive.push_back(1);
@@ -47,6 +48,7 @@ void EntityManager::DestroyEntity(int entity) {
 	entity_to_renderer_idx[entity] = -1;
 	entity_to_transform_idx[entity] = -1;
 	entity_to_collider_idx[entity] = -1;
+	entity_to_script_idx[entity] = -1;
 }
 
 template<>
@@ -91,6 +93,21 @@ void EntityManager::AddComponent<ColliderComponent>(int entity) {
 
 
 template<>
+void EntityManager::AddComponent<ScriptComponent>(int entity) {
+	if (entity_to_script_idx[entity] != -1) return;
+
+	ScriptComponent cmp{};
+
+	scripts.push_back(cmp);
+
+	entity_to_script_idx[entity] = scripts.size() - 1;
+
+	entity_to_mask[entity] |= static_cast<uint64_t>(ComponentBit::SCRIPT);
+
+}
+
+
+template<>
 void EntityManager::RemoveComponent<RendererComponent>(int entity) {
 	if (entity < 0 || entity >= entity_to_renderer_idx.size()) return;
 
@@ -125,6 +142,18 @@ void EntityManager::RemoveComponent<ColliderComponent>(int entity) {
 
 
 template<>
+void EntityManager::RemoveComponent<ScriptComponent>(int entity) {
+	if (entity < 0 || entity >= entity_to_script_idx.size()) return;
+	int idx = entity_to_script_idx[entity];
+
+	scripts[idx].active = false;
+	entity_to_script_idx[entity] = -1;
+	entity_to_mask[entity] &= ~static_cast<uint64_t>(ComponentBit::SCRIPT);
+
+}
+
+
+template<>
 RendererComponent& EntityManager::GetComponent<RendererComponent>(int entity) {
 	return rendererComps[entity_to_renderer_idx[entity]];
 }
@@ -137,6 +166,12 @@ TransformComponent& EntityManager::GetComponent<TransformComponent>(int entity) 
 template<>
 ColliderComponent& EntityManager::GetComponent<ColliderComponent>(int entity) {
 	return colliders[entity_to_collider_idx[entity]];
+}
+
+
+template<>
+ScriptComponent& EntityManager::GetComponent<ScriptComponent>(int entity) {
+	return scripts[entity_to_script_idx[entity]];
 }
 
 
@@ -171,6 +206,18 @@ bool EntityManager::HasComponent<ColliderComponent>(int entity) const {
 
 	return (mask & target) == target;
 }
+
+
+template<>
+bool EntityManager::HasComponent<ScriptComponent>(int entity) const {
+	if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+	const uint64_t mask = entity_to_mask[entity];
+	const uint64_t target = static_cast<uint64_t>(ComponentBit::SCRIPT);
+
+	return (mask & target) == target;
+}
+
 
 
 int EntityManager::GetAllEntitiesCount() const {

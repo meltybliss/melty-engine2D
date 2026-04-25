@@ -102,6 +102,9 @@
     <ClCompile Include="src\editor\EditorScene.cpp">
       <Filter>ソース ファイル\editor</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\ScriptSystem.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="third_party\glad\glad.h">
@@ -232,6 +235,18 @@
     </ClInclude>
     <ClInclude Include="include\editor\EditorScene.h">
       <Filter>ヘッダー ファイル\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\Behaivor.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\ScriptComponent.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\ScriptSystem.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\SceneLogic.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

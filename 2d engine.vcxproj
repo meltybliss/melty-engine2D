@@ -143,6 +143,7 @@
     <ClCompile Include="src\engine\Renderer2D.cpp" />
     <ClCompile Include="src\engine\RenderSystem.cpp" />
     <ClCompile Include="src\engine\SceneManager.cpp" />
+    <ClCompile Include="src\engine\ScriptSystem.cpp" />
     <ClCompile Include="src\engine\TextureManager.cpp" />
     <ClCompile Include="third_party\glad.c" />
     <ClCompile Include="third_party\imgui\imgui.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="include\editor\EditTransformCommand.h" />
     <ClInclude Include="include\editor\RenameEntityCommand.h" />
     <ClInclude Include="include\engine\BaseScene.h" />
+    <ClInclude Include="include\engine\Behaivor.h" />
     <ClInclude Include="include\engine\ColliderComp.h" />
     <ClInclude Include="include\engine\CollisionSystem.h" />
     <ClInclude Include="include\engine\Color.h" />
@@ -176,7 +178,10 @@
     <ClInclude Include="include\engine\Renderer2D.h" />
     <ClInclude Include="include\engine\RendererComp.h" />
     <ClInclude Include="include\engine\RenderSystem.h" />
+    <ClInclude Include="include\engine\SceneLogic.h" />
     <ClInclude Include="include\engine\SceneManager.h" />
+    <ClInclude Include="include\engine\ScriptComponent.h" />
+    <ClInclude Include="include\engine\ScriptSystem.h" />
     <ClInclude Include="include\engine\Texture2D.h" />
     <ClInclude Include="include\engine\TextureAPI.h" />
     <ClInclude Include="include\engine\TextureManager.h" />

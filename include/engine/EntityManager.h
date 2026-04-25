@@ -3,6 +3,7 @@
 #include "RendererComp.h"
 #include "TransformComp.h"
 #include "ColliderComp.h"
+#include "ScriptComponent.h"
 #include <vector>
 #include <unordered_map>
 #include <stdint.h>
@@ -15,6 +16,7 @@ enum class ComponentBit {
 	RENDERER = 1ULL << 0,
 	TRANSFORM = 1ULL << 1,
 	COLLIDER = 1ULL << 2,
+	SCRIPT = 1ULL << 3,
 
 };
 
@@ -43,6 +45,7 @@ public:
 		if (entity < 0 || entity >= (int)entity_to_mask.size()) return 0;
 		return isAlive[entity];
 	}
+
 
 	template<typename T>
 	bool HasComponent(int entity) const;
@@ -79,10 +82,12 @@ private:
 	std::vector<int> entity_to_renderer_idx;
 	std::vector<int> entity_to_transform_idx;
 	std::vector<int> entity_to_collider_idx;
+	std::vector<int> entity_to_script_idx;
 
 	std::vector<RendererComponent> rendererComps;
 	std::vector<TransformComponent> transforms;
 	std::vector<ColliderComponent> colliders;
+	std::vector<ScriptComponent> scripts;
 
 
 	int nextEntityId = 0;
