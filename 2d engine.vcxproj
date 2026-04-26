@@ -145,6 +145,7 @@
     <ClCompile Include="src\engine\RenderSystem.cpp" />
     <ClCompile Include="src\engine\SceneLogicRegistry.cpp" />
     <ClCompile Include="src\engine\SceneManager.cpp" />
+    <ClCompile Include="src\engine\SceneSnapshotSerializer.cpp" />
     <ClCompile Include="src\engine\ScriptSystem.cpp" />
     <ClCompile Include="src\engine\TextureManager.cpp" />
     <ClCompile Include="third_party\glad.c" />
@@ -185,6 +186,7 @@
     <ClInclude Include="include\engine\SceneLogic.h" />
     <ClInclude Include="include\engine\SceneLogicRegistry.h" />
     <ClInclude Include="include\engine\SceneManager.h" />
+    <ClInclude Include="include\engine\SceneSnapshotSerializer.h" />
     <ClInclude Include="include\engine\ScriptComponent.h" />
     <ClInclude Include="include\engine\ScriptSystem.h" />
     <ClInclude Include="include\engine\SnapShot.h" />

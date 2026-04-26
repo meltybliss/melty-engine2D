@@ -53,11 +53,8 @@ public:
     }
 
 
-protected:
-    int CreateRectEntity(const Vec2& pos, float w, float h, const Color3& color, int layer);
-    int CreateSpriteEntity(const std::string& texturePath, const Vec2& pos, int layer);
+    SceneLogic* GetSceneLogic() const { return sceneLogic.get(); }
 
-    virtual void Tick(float dt) {};
 
     void SetSceneLogic(std::unique_ptr<SceneLogic> newLogic) {
         sceneLogic = std::move(newLogic);
@@ -67,6 +64,13 @@ protected:
         }
     }
 
+protected:
+    int CreateRectEntity(const Vec2& pos, float w, float h, const Color3& color, int layer);
+    int CreateSpriteEntity(const std::string& texturePath, const Vec2& pos, int layer);
+
+    virtual void Tick(float dt) {};
+
+  
 
 
     EntityManager entityManager;

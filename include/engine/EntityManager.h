@@ -39,6 +39,8 @@ public:
 	template<typename T>
 	T& GetComponent(int entity);
 
+	template<typename T>
+	const T& GetComponent(int entity) const;
 	
 	int GetAllEntitiesCount() const;
 	uint8_t IsAlive(int entity) const {
@@ -66,6 +68,9 @@ public:
 		return entity_to_mask[entity];
 
 	}
+
+
+	void Reset();
 private:
 
 

@@ -12,7 +12,7 @@
 EditorScene::EditorScene(std::unique_ptr<BaseScene> targetScene) :
     editingTarget(std::move(targetScene)) {
 
-    playTarget = editingTarget
+    //playTarget = editingTarget
 }
 
 void EditorScene::Enter() {
@@ -58,7 +58,10 @@ void EditorScene::DrawToolbar() {
 
     if (!isPlaying) {
         if (ImGui::Button("Play")) {
-            isPlaying = true;
+            if (editingTarget) {
+                playBackup = SceneSnapshotSerializer::Build(*editingTarget);
+                isPlaying = true;
+            }
         }
     }
     else {
@@ -66,6 +69,11 @@ void EditorScene::DrawToolbar() {
             isPlaying = false;
             if (editingTarget) {
                 editingTarget->StopPlay();
+                SceneSnapshotSerializer::Restore(*editingTarget, playBackup);
+
+                selectedEntity = -1;
+                editingName.clear();
+                editingTexturePath.clear();
             }
         }
     }

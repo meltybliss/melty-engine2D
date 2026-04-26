@@ -53,7 +53,7 @@ public:
 	ShapeType type = ShapeType::Triangle;
 	bool visible = true;
 	int layer = 0;
-	Color3 color{};
+	Color3 color{1.f, 1.f, 1.f};
 
 	union ShapeData {
 		TriangleData triangle;

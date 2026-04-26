@@ -11,7 +11,7 @@ void SceneManager::Render() {
 }
 
 
-bool SceneManager::ChangeCurrentScene(std::unique_ptr<IScene> scene) {
+bool SceneManager::ChangeCurrentScene(std::unique_ptr<IScene> scene) {//call Enter and Exit
 	if (!scene) return false;
 
 	if (curScene) {

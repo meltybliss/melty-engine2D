@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "engine/SceneSnapshotSerializer.h"
 #include "engine/BaseScene.h"
 #include "CommandStack.h"
 
@@ -24,8 +25,10 @@ private:
 
     bool isPlaying = false;
 
+    SceneSnapshot playBackup{};
+
     std::unique_ptr<BaseScene> editingTarget;
-    std::unique_ptr<BaseScene> playTarget;
+   // std::unique_ptr<BaseScene> playTarget;
 
 
 

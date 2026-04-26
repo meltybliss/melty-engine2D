@@ -114,6 +114,9 @@
     <ClCompile Include="src\engine\SceneLogicRegistry.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\SceneSnapshotSerializer.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="third_party\glad\glad.h">
@@ -273,6 +276,9 @@
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
     <ClInclude Include="include\engine\SnapShot.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\SceneSnapshotSerializer.h">
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
   </ItemGroup>
