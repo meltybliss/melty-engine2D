@@ -147,6 +147,7 @@
     <ClCompile Include="src\engine\SceneManager.cpp" />
     <ClCompile Include="src\engine\SceneSnapshotSerializer.cpp" />
     <ClCompile Include="src\engine\ScriptSystem.cpp" />
+    <ClCompile Include="src\engine\TextureAPI.cpp" />
     <ClCompile Include="src\engine\TextureManager.cpp" />
     <ClCompile Include="third_party\glad.c" />
     <ClCompile Include="third_party\imgui\imgui.cpp" />
@@ -179,10 +180,12 @@
     <ClInclude Include="include\engine\Input.h" />
     <ClInclude Include="include\engine\InputAPI.h" />
     <ClInclude Include="include\engine\IScene.h" />
+    <ClInclude Include="include\engine\KeyCode.h" />
     <ClInclude Include="include\engine\RenderCommand.h" />
     <ClInclude Include="include\engine\Renderer2D.h" />
     <ClInclude Include="include\engine\RendererComp.h" />
     <ClInclude Include="include\engine\RenderSystem.h" />
+    <ClInclude Include="include\engine\SceneContext.h" />
     <ClInclude Include="include\engine\SceneLogic.h" />
     <ClInclude Include="include\engine\SceneLogicRegistry.h" />
     <ClInclude Include="include\engine\SceneManager.h" />

@@ -29,24 +29,7 @@ void CollisionSystem::Tick(EntityManager& em) {
 
 				}
 				else {
-					float overlapX = std::min(box1.max.x, box2.max.x) - std::max(box1.min.x, box2.min.x);
-					float overlapY = std::min(box1.max.y, box2.max.y) - std::max(box1.min.y, box2.min.y);
-
-					auto& tr1 = em.GetComponent<TransformComponent>(i);
-
-					float center1X = (box1.min.x + box1.max.x) * 0.5f;
-					float center2X = (box2.min.x + box2.max.x) * 0.5f;
-					float center1Y = (box1.min.y + box1.max.y) * 0.5f;
-					float center2Y = (box2.min.y + box2.max.y) * 0.5f;
-
-					if (overlapX < overlapY) {
-						if (center1X < center2X) tr1.position.x -= overlapX;
-						else                     tr1.position.x += overlapX;
-					}
-					else {
-						if (center1Y < center2Y) tr1.position.y -= overlapY;
-						else                     tr1.position.y += overlapY;
-					}
+					ResolveCollision(em, i, j, box1, box2);
 				}
 			}
 		}
@@ -71,11 +54,73 @@ AABB CollisionSystem::MakeAABB(EntityManager& em, int entity) {
 }
 
 
+void CollisionSystem::ResolveCollision(
+	EntityManager& em,
+	int a,
+	int b,
+	const AABB& boxA,
+	const AABB& boxB
+) {
+	auto& colA = em.GetComponent<ColliderComponent>(a);
+	auto& colB = em.GetComponent<ColliderComponent>(b);
+
+	if (colA.isStatic && colB.isStatic) return;
+
+	float overlapX = std::min(boxA.max.x, boxB.max.x) - std::max(boxA.min.x, boxB.min.x);
+	float overlapY = std::min(boxA.max.y, boxB.max.y) - std::max(boxA.min.y, boxB.min.y);
+
+	float centerAX = (boxA.min.x + boxA.max.x) * 0.5f;
+	float centerBX = (boxB.min.x + boxB.max.x) * 0.5f;
+	float centerAY = (boxA.min.y + boxA.max.y) * 0.5f;
+	float centerBY = (boxB.min.y + boxB.max.y) * 0.5f;
+
+	Vec2 push{};
+
+	if (overlapX < overlapY) {
+		push.x = (centerAX < centerBX) ? -overlapX : overlapX;
+	}
+	else {
+		push.y = (centerAY < centerBY) ? -overlapY : overlapY;
+	}
+
+	if (colA.isStatic && !colB.isStatic) {
+		auto& trB = em.GetComponent<TransformComponent>(b);
+		trB.position.x -= push.x;
+		trB.position.y -= push.y;
+	}
+	else if (!colA.isStatic && colB.isStatic) {
+		auto& trA = em.GetComponent<TransformComponent>(a);
+		trA.position.x += push.x;
+		trA.position.y += push.y;
+	}
+	else {
+		auto& trA = em.GetComponent<TransformComponent>(a);
+		auto& trB = em.GetComponent<TransformComponent>(b);
+
+		trA.position.x += push.x * 0.5f;
+		trA.position.y += push.y * 0.5f;
+
+		trB.position.x -= push.x * 0.5f;
+		trB.position.y -= push.y * 0.5f;
+	}
+}
+
 bool CollisionSystem::CheckOverlap(const AABB& a, const AABB& b) {
-
-	return a.min.x > b.max.x &&
+	return a.min.x < b.max.x &&
 		a.max.x > b.min.x &&
-		a.min.y > b.max.y &&
+		a.min.y < b.max.y &&
 		a.max.y > b.min.y;
+}
 
+bool CollisionSystem::IsOverlapping(EntityManager& em, int a, int b) {
+	if (!em.IsAlive(a) || !em.IsAlive(b)) return false;
+	if (!em.HasComponent<TransformComponent>(a)) return false;
+	if (!em.HasComponent<TransformComponent>(b)) return false;
+	if (!em.HasComponent<ColliderComponent>(a)) return false;
+	if (!em.HasComponent<ColliderComponent>(b)) return false;
+
+	AABB boxA = MakeAABB(em, a);
+	AABB boxB = MakeAABB(em, b);
+
+	return CheckOverlap(boxA, boxB);
 }

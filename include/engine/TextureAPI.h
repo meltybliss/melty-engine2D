@@ -1,14 +1,9 @@
 #pragma once
-#include "Engine.h"
 
-inline Texture2D* GetTexture(const std::string& path) {
-	return gEngine->GetTextureManager().GetTexture(path);
-}
+#include <string>
 
-inline Texture2D* LoadTexture(const std::string& path) {
-	return gEngine->GetTextureManager().LoadTexture(path);
-}
+class Texture2D;
 
-inline void UnloadAll() {
-	gEngine->GetTextureManager().UnloadAll();
-}
+Texture2D* GetTexture(const std::string& path);
+Texture2D* LoadTexture(const std::string& path);
+void UnloadAll();

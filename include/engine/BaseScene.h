@@ -4,9 +4,14 @@
 #include "ScriptSystem.h"
 #include "SceneLogic.h"
 #include "RenderSystem.h"
+#include "SceneContext.h"
+#include "CollisionSystem.h"
 
 class BaseScene : public IScene {
 public:
+
+    BaseScene() : sceneContext(entityManager, collisionSystem) {}
+
 	virtual ~BaseScene() override = default;
 
     void Enter() override {}
@@ -21,22 +26,24 @@ public:
             sceneLogic->Tick(dt);
         }
         
-        scriptSystem.Tick(entityManager, dt);
+        scriptSystem.Tick(entityManager, sceneContext, dt);
+        collisionSystem.Tick(entityManager);
 
         Tick(dt);
 
     }
+
     void Render() override;
 
     EntityManager& GetEntityManager() { return entityManager; }
     const EntityManager& GetEntityManager() const { return entityManager; }
 
     int AddRectEntity(const Vec2& pos, float w, float h, const Color3& color, int layer) {
-        return CreateRectEntity(pos, w, h, color, layer);
+        return sceneContext.CreateRectEntity(pos, w, h, color, layer);
     }
 
     int AddSpriteEntity(const std::string& texturePath, const Vec2& pos, int layer) {
-        return CreateSpriteEntity(texturePath, pos, layer);
+        return sceneContext.CreateSpriteEntity(texturePath, pos, layer);
     }
 
 
@@ -60,13 +67,12 @@ public:
         sceneLogic = std::move(newLogic);
 
         if (sceneLogic) {
-            sceneLogic->Bind(&entityManager);
+            sceneLogic->Bind(&entityManager, &sceneContext);
         }
     }
 
 protected:
-    int CreateRectEntity(const Vec2& pos, float w, float h, const Color3& color, int layer);
-    int CreateSpriteEntity(const std::string& texturePath, const Vec2& pos, int layer);
+    
 
     virtual void Tick(float dt) {};
 
@@ -75,10 +81,15 @@ protected:
 
     EntityManager entityManager;
     ScriptSystem scriptSystem;
+    SceneContext sceneContext;
+
     std::unique_ptr<SceneLogic> sceneLogic;
+
+
 private:
 
     RenderSystem renderSystem;
+    CollisionSystem collisionSystem;
     
     bool hasBegunPlay = false;
 

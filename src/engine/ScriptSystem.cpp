@@ -1,7 +1,7 @@
 #include "engine/ScriptSystem.h"
 
 
-void ScriptSystem::Tick(EntityManager& em, float dt) {
+void ScriptSystem::Tick(EntityManager& em, SceneContext& ctx, float dt) {
 
 	auto alive = em.GetAliveEntities();
 	for (auto& i : alive) {
@@ -15,7 +15,7 @@ void ScriptSystem::Tick(EntityManager& em, float dt) {
 
 		if (!sc.started) {
 			sc.started = true;
-			behaviour->Bind(&em, i);
+			behaviour->Bind(&em, &ctx, i);
 			behaviour->BeginPlay();
 		}
 

@@ -9,5 +9,5 @@ public:
 
 	Vec2 offset{};
 	bool isTrigger = false;//if true, it would be detected but not be hitted
-
+	bool isStatic = false;
 };

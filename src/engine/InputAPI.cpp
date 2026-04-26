@@ -2,10 +2,10 @@
 #include "engine/Input.h"
 #include "engine/Engine.h"
 
-bool IsPressed(int key) {
-	return gEngine->GetInput().IsPressed(key);
+bool IsKeyPressed(KeyCode key) {
+	return gEngine->GetInput().IsKeyPressed(key);
 }
 
-bool IsReleased(int key) {
-	return gEngine->GetInput().IsReleased(key);
+bool IsKeyReleased(KeyCode key) {
+	return gEngine->GetInput().IsKeyReleased(key);
 }

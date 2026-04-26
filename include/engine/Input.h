@@ -1,13 +1,14 @@
 #pragma once
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "KeyCode.h"
 
 
 class Input {
 public:
 
-	bool IsPressed(int key) const;
-	bool IsReleased(int key) const;
+	bool IsKeyPressed(KeyCode key) const;
+	bool IsKeyReleased(KeyCode key) const;
 
 	void Tick(GLFWwindow* window);
 

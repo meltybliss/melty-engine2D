@@ -1,13 +1,17 @@
 #include "engine/Input.h"
 
-bool Input::IsPressed(int key) const {
-	if (key < 0 || key >= 512) return false;
-	return keys[key];
+bool Input::IsKeyPressed(KeyCode key) const {
+	int index = static_cast<int>(key);
+
+	if (index < 0 || index >= 512) return false;
+	return keys[index];
 }
 
-bool Input::IsReleased(int key) const {
-	if (key < 0 || key >= 512) return false;
-	return previous[key] && !keys[key];
+bool Input::IsKeyReleased(KeyCode key) const {
+	int index = static_cast<int>(key);
+
+	if (index < 0 || index >= 512) return false;
+	return previous[index] && !keys[index];
 }
 
 void Input::Tick(GLFWwindow* window) {
