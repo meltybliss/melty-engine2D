@@ -48,6 +48,7 @@ AABB CollisionSystem::MakeAABB(EntityManager& em, int entity) {
 	float halfW = cl.width * 0.5f;
 	float halfH = cl.height * 0.5f;
 
+	//center is the reference point
 	AABB box;
 	box.min = Vec2{ centerX - halfW, centerY - halfH };
 	box.max = Vec2{ centerX + halfW, centerY + halfH };
