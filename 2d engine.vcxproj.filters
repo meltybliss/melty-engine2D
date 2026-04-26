@@ -108,6 +108,12 @@
     <ClCompile Include="src\engine\ScriptSystem.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\BehaviourRegistry.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\SceneLogicRegistry.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="third_party\glad\glad.h">
@@ -256,6 +262,18 @@
     </ClInclude>
     <ClInclude Include="include\game\TestSceneLogic.h">
       <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\BehaviourRegistry.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\SceneLogicRegistry.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\AutoRegister.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\SnapShot.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

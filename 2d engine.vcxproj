@@ -134,6 +134,7 @@
     <ClCompile Include="src\editor\CommandStack.cpp" />
     <ClCompile Include="src\editor\EditorScene.cpp" />
     <ClCompile Include="src\engine\BaseScene.cpp" />
+    <ClCompile Include="src\engine\BehaviourRegistry.cpp" />
     <ClCompile Include="src\engine\CollisionSystem.cpp" />
     <ClCompile Include="src\engine\Engine.cpp" />
     <ClCompile Include="src\engine\EntityManager.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="src\engine\main.cpp" />
     <ClCompile Include="src\engine\Renderer2D.cpp" />
     <ClCompile Include="src\engine\RenderSystem.cpp" />
+    <ClCompile Include="src\engine\SceneLogicRegistry.cpp" />
     <ClCompile Include="src\engine\SceneManager.cpp" />
     <ClCompile Include="src\engine\ScriptSystem.cpp" />
     <ClCompile Include="src\engine\TextureManager.cpp" />
@@ -162,8 +164,10 @@
     <ClInclude Include="include\editor\ICommand.h" />
     <ClInclude Include="include\editor\EditTransformCommand.h" />
     <ClInclude Include="include\editor\RenameEntityCommand.h" />
+    <ClInclude Include="include\engine\AutoRegister.h" />
     <ClInclude Include="include\engine\BaseScene.h" />
     <ClInclude Include="include\engine\Behaviour.h" />
+    <ClInclude Include="include\engine\BehaviourRegistry.h" />
     <ClInclude Include="include\engine\ColliderComp.h" />
     <ClInclude Include="include\engine\CollisionSystem.h" />
     <ClInclude Include="include\engine\Color.h" />
@@ -179,9 +183,11 @@
     <ClInclude Include="include\engine\RendererComp.h" />
     <ClInclude Include="include\engine\RenderSystem.h" />
     <ClInclude Include="include\engine\SceneLogic.h" />
+    <ClInclude Include="include\engine\SceneLogicRegistry.h" />
     <ClInclude Include="include\engine\SceneManager.h" />
     <ClInclude Include="include\engine\ScriptComponent.h" />
     <ClInclude Include="include\engine\ScriptSystem.h" />
+    <ClInclude Include="include\engine\SnapShot.h" />
     <ClInclude Include="include\engine\Texture2D.h" />
     <ClInclude Include="include\engine\TextureAPI.h" />
     <ClInclude Include="include\engine\TextureManager.h" />

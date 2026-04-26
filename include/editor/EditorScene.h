@@ -25,6 +25,7 @@ private:
     bool isPlaying = false;
 
     std::unique_ptr<BaseScene> editingTarget;
+    std::unique_ptr<BaseScene> playTarget;
 
 
 

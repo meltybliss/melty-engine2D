@@ -12,6 +12,7 @@
 EditorScene::EditorScene(std::unique_ptr<BaseScene> targetScene) :
     editingTarget(std::move(targetScene)) {
 
+    playTarget = editingTarget
 }
 
 void EditorScene::Enter() {

@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/SceneLogic.h"
+#include "engine/AutoRegister.h"
 
 class TestSceneLogic : public SceneLogic {
 public:
@@ -34,3 +35,6 @@ private:
 	int entity = -1;
 
 };
+
+
+REGISTER_SCENELOGIC(TestSceneLogic, "TestScene");
