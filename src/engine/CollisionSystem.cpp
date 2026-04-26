@@ -42,17 +42,18 @@ AABB CollisionSystem::MakeAABB(EntityManager& em, int entity) {
 	auto& tr = em.GetComponent<TransformComponent>(entity);
 	auto& cl = em.GetComponent<ColliderComponent>(entity);
 
+	float centerX = tr.position.x + cl.offset.x;
+	float centerY = tr.position.y + cl.offset.y;
+
+	float halfW = cl.width * 0.5f;
+	float halfH = cl.height * 0.5f;
+
 	AABB box;
-
-	float baseX = tr.position.x + cl.offset.x;
-	float baseY = tr.position.y + cl.offset.y;
-	box.min = Vec2{ baseX, baseY - cl.height };
-	box.max = Vec2{ baseX + cl.width, baseY };
-
+	box.min = Vec2{ centerX - halfW, centerY - halfH };
+	box.max = Vec2{ centerX + halfW, centerY + halfH };
 
 	return box;
 }
-
 
 void CollisionSystem::ResolveCollision(
 	EntityManager& em,
