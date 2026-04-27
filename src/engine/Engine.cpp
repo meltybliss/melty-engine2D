@@ -48,6 +48,10 @@ Engine::Engine(int screenW, int screenH) : m_screenW(screenW), m_screenH(screenH
 
 	lastTime = (float)glfwGetTime();
 
+	//
+	gameInstanceGC = gGCM->NewObject<GameInstance>(nullptr);
+	gGCM->AddRoot(gameInstanceGC);
+	gameInstanceGC->Init();
 }
 
 

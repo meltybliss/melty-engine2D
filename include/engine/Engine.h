@@ -4,6 +4,8 @@
 #include "SceneManager.h"
 #include "TextureManager.h"
 #include "Input.h"
+#include "GCManager.h"
+#include "GameInstance.h"	
 
 class Engine {
 public:
@@ -19,12 +21,16 @@ public:
 	Input& GetInput() { return input; }
 	TextureManager& GetTextureManager() { return textureM; }
 	SceneManager& GetSceneManager() { return sceneM; }
+	GameInstance* GetGameInstance() { return gameInstanceGC; }
 private:
 	GLFWwindow* m_window = nullptr;
 	Renderer2D renderer;
 	Input input;
 	SceneManager sceneM;
 	TextureManager textureM;
+
+	GCManager gcM;
+	GameInstance* gameInstanceGC = nullptr;
 
 	bool running = true;
 	float lastTime = 0;

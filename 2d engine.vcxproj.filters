@@ -126,7 +126,7 @@
     <ClCompile Include="src\engine\GCManager.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\SceneGCScope.cpp">
+    <ClCompile Include="src\engine\GameInstance.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -318,6 +318,9 @@
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
     <ClInclude Include="include\engine\SceneGCScope.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\GameInstance.h">
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
   </ItemGroup>

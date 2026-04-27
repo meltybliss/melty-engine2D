@@ -1,4 +1,5 @@
 #include "engine/SceneManager.h"
+#include "engine/Engine.h"
 
 void SceneManager::Tick(float dt) {
 	if (!curScene) return;
@@ -19,6 +20,11 @@ bool SceneManager::ChangeCurrentScene(std::unique_ptr<IScene> scene) {//call Ent
 	}
 	
 	curScene = std::move(scene);
+
+	if (gEngine && gEngine->GetGameInstance()) {
+		gEngine->GetGameInstance()->ResetSceneScope();
+		gGCM->Collect();
+	}
 
 	curScene->Enter();
 

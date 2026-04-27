@@ -7,8 +7,6 @@
 class SceneGCScope : public GCObject {
 public:
 
-	SceneGCScope();
-
 	void DestroyObject(GCObject*& object) override {
 		if (!object) return;
 		sceneObjects.erase(

@@ -17,7 +17,7 @@ public:
 	GCManager();
 
 	template<typename T, typename... Args>
-	T* NewObject(GCObject* owner, Args&&... args) {
+	T* NewObject(GCObject* owner = nullptr, Args&&... args) {
 		static_assert(std::is_base_of_v<GCObject, T>, "T must derive from GCObject");
 
 		T* obj = new T(std::forward<Args>(args)...);
