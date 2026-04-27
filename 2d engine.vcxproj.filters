@@ -126,6 +126,9 @@
     <ClCompile Include="src\engine\GCManager.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\SceneGCScope.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="third_party\glad\glad.h">
@@ -309,6 +312,12 @@
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
     <ClInclude Include="include\engine\GCMacros.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\GCNew.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\SceneGCScope.h">
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
   </ItemGroup>

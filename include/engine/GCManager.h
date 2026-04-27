@@ -1,5 +1,6 @@
 #pragma once
 #include "GCObject.h"
+#include "SceneGCScope.h"
 #include <vector>
 
 
@@ -12,6 +13,8 @@ struct GCSlot {
 
 class GCManager {
 public:
+
+	GCManager();
 
 	template<typename T, typename... Args>
 	T* NewObject(Args&&... args) {
@@ -29,11 +32,27 @@ public:
 
 	}
 
+	template<typename T, typename... Args>
+	T* NewSceneObject(Args&&... args) {
+		T* obj = NewObject<T>(args);
+		if (!obj) return nullptr;
+		gSceneGCScope->sceneObjects.push_back(obj);
+
+		return obj;
+
+	}
+
+
+	void Destroy(GCObject*& obj) {//the users themselves call this
+		obj = nullptr;
+	}
+
 
 	void AddRoot(GCObject* obj);
 
-
 	void MarkObject(GCObject* obj);
+
+	void Collect();
 
 private:
 
@@ -42,6 +61,10 @@ private:
 
 	GCSlot* FindSlot(GCObject* obj);
 
-	void ClearMark();
+	void Sweep();
 
+	void ClearMark();
+	void MarkRoots();
 };
+
+extern GCManager* gGCM;

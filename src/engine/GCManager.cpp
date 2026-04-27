@@ -1,5 +1,10 @@
 #include "engine/GCManager.h"
 
+GCManager* gGCM = nullptr;
+
+GCManager::GCManager() {
+	gGCM = this;
+}
 
 void GCManager::AddRoot(GCObject* obj) {
 	if (!obj) return;
@@ -20,6 +25,46 @@ void GCManager::MarkObject(GCObject* obj) {
 	obj->AddReferencedObjects(*this);
 }
 
+
+void GCManager::Sweep() {
+
+	auto it = allObjects.begin();
+	while (it != allObjects.end()) {
+		auto& obj = it->object;
+		bool marked = it->marked;
+
+		if (!obj) {
+			it = allObjects.erase(it);
+			continue;
+		}
+
+		if (!marked) {
+			delete obj;
+			it = allObjects.erase(it);
+		}
+		else {
+			it++;
+		}
+		
+		
+	}
+
+}
+
+
+void GCManager::MarkRoots() {
+	for (auto& root : roots) {
+		if (!root) continue;
+		MarkObject(root);
+	}
+
+}
+
+void GCManager::Collect() {
+	ClearMark();
+	MarkRoots();
+
+}
 
 GCSlot* GCManager::FindSlot(GCObject* obj) {
 	for (auto& slot : allObjects) {

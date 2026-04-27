@@ -145,6 +145,7 @@
     <ClCompile Include="src\engine\MovementSystem.cpp" />
     <ClCompile Include="src\engine\Renderer2D.cpp" />
     <ClCompile Include="src\engine\RenderSystem.cpp" />
+    <ClCompile Include="src\engine\SceneGCScope.cpp" />
     <ClCompile Include="src\engine\SceneLogicRegistry.cpp" />
     <ClCompile Include="src\engine\SceneManager.cpp" />
     <ClCompile Include="src\engine\SceneSnapshotSerializer.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="include\engine\GameObject.h" />
     <ClInclude Include="include\engine\GCMacros.h" />
     <ClInclude Include="include\engine\GCManager.h" />
+    <ClInclude Include="include\engine\GCNew.h" />
     <ClInclude Include="include\engine\GCObject.h" />
     <ClInclude Include="include\engine\Input.h" />
     <ClInclude Include="include\engine\InputAPI.h" />
@@ -192,6 +194,7 @@
     <ClInclude Include="include\engine\RendererComp.h" />
     <ClInclude Include="include\engine\RenderSystem.h" />
     <ClInclude Include="include\engine\SceneContext.h" />
+    <ClInclude Include="include\engine\SceneGCScope.h" />
     <ClInclude Include="include\engine\SceneLogic.h" />
     <ClInclude Include="include\engine\SceneLogicRegistry.h" />
     <ClInclude Include="include\engine\SceneManager.h" />
