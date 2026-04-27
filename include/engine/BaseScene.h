@@ -6,6 +6,7 @@
 #include "RenderSystem.h"
 #include "SceneContext.h"
 #include "CollisionSystem.h"
+#include "MovementSystem.h"
 
 class BaseScene : public IScene {
 public:
@@ -28,6 +29,7 @@ public:
         
         scriptSystem.Tick(entityManager, sceneContext, dt);
         collisionSystem.Tick(entityManager);
+        movementSystem.Tick(entityManager, dt);
 
         Tick(dt);
 
@@ -90,7 +92,8 @@ private:
 
     RenderSystem renderSystem;
     CollisionSystem collisionSystem;
-    
+    MovementSystem movementSystem;
+
     bool hasBegunPlay = false;
 
 };

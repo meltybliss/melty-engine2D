@@ -21,6 +21,9 @@ struct EntitySnapshot {
 	bool hasScript = false;
 	std::string behaviourName;//link to registry
 
+	bool hasVelocity = false;
+	VelocityComponent velocityCmp{};
+
 };
 
 

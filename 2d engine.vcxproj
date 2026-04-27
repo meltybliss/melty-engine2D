@@ -138,9 +138,11 @@
     <ClCompile Include="src\engine\CollisionSystem.cpp" />
     <ClCompile Include="src\engine\Engine.cpp" />
     <ClCompile Include="src\engine\EntityManager.cpp" />
+    <ClCompile Include="src\engine\GCManager.cpp" />
     <ClCompile Include="src\engine\Input.cpp" />
     <ClCompile Include="src\engine\InputAPI.cpp" />
     <ClCompile Include="src\engine\main.cpp" />
+    <ClCompile Include="src\engine\MovementSystem.cpp" />
     <ClCompile Include="src\engine\Renderer2D.cpp" />
     <ClCompile Include="src\engine\RenderSystem.cpp" />
     <ClCompile Include="src\engine\SceneLogicRegistry.cpp" />
@@ -177,10 +179,14 @@
     <ClInclude Include="include\engine\Engine.h" />
     <ClInclude Include="include\engine\EntityManager.h" />
     <ClInclude Include="include\engine\GameObject.h" />
+    <ClInclude Include="include\engine\GCMacros.h" />
+    <ClInclude Include="include\engine\GCManager.h" />
+    <ClInclude Include="include\engine\GCObject.h" />
     <ClInclude Include="include\engine\Input.h" />
     <ClInclude Include="include\engine\InputAPI.h" />
     <ClInclude Include="include\engine\IScene.h" />
     <ClInclude Include="include\engine\KeyCode.h" />
+    <ClInclude Include="include\engine\MovementSystem.h" />
     <ClInclude Include="include\engine\RenderCommand.h" />
     <ClInclude Include="include\engine\Renderer2D.h" />
     <ClInclude Include="include\engine\RendererComp.h" />
@@ -198,6 +204,7 @@
     <ClInclude Include="include\engine\TextureManager.h" />
     <ClInclude Include="include\engine\TransformComp.h" />
     <ClInclude Include="include\engine\Vec2.h" />
+    <ClInclude Include="include\engine\VelocityComponent.h" />
     <ClInclude Include="include\game\TestScene.h" />
     <ClInclude Include="include\game\TestSceneLogic.h" />
     <ClInclude Include="third_party\glad\glad.h" />

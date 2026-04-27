@@ -7,6 +7,7 @@ int EntityManager::CreateEntity() {
 	if (entity_to_transform_idx.size() <= id) entity_to_transform_idx.resize(id + 1, -1);
 	if (entity_to_collider_idx.size() <= id) entity_to_collider_idx.resize(id + 1, -1);
 	if (entity_to_script_idx.size() <= id) entity_to_script_idx.resize(id + 1, -1);
+	if (entity_to_velocity_idx.size() <= id) entity_to_velocity_idx.resize(id + 1, -1);
 
 	entity_to_mask.push_back(0);
 	isAlive.push_back(1);
@@ -49,6 +50,7 @@ void EntityManager::DestroyEntity(int entity) {
 	entity_to_transform_idx[entity] = -1;
 	entity_to_collider_idx[entity] = -1;
 	entity_to_script_idx[entity] = -1;
+	entity_to_velocity_idx[entity] = -1;
 }
 
 template<>
@@ -108,6 +110,18 @@ ScriptComponent& EntityManager::AddComponent<ScriptComponent>(int entity) {
 
 
 template<>
+VelocityComponent& EntityManager::AddComponent<VelocityComponent>(int entity) {
+	if (entity_to_script_idx[entity] != -1) return velocities[entity_to_script_idx[entity]];
+
+	VelocityComponent cmp{};
+	velocities.push_back(std::move(cmp));
+
+	entity_to_script_idx[entity] = velocities.size() - 1;
+	entity_to_mask[entity] |= static_cast<uint64_t>(ComponentBit::VELOCITY);
+	return velocities[entity_to_script_idx[entity]];
+}
+
+template<>
 void EntityManager::RemoveComponent<RendererComponent>(int entity) {
 	if (entity < 0 || entity >= entity_to_renderer_idx.size()) return;
 
@@ -152,6 +166,16 @@ void EntityManager::RemoveComponent<ScriptComponent>(int entity) {
 
 }
 
+template<>
+void EntityManager::RemoveComponent<VelocityComponent>(int entity) {
+	if (entity < 0 || entity >= entity_to_velocity_idx.size()) return;
+	int idx = entity_to_velocity_idx[entity];
+
+	velocities[idx].active = false;
+	entity_to_velocity_idx[entity] = -1;
+	entity_to_mask[entity] &= ~static_cast<uint64_t>(ComponentBit::VELOCITY);
+}
+
 
 template<>
 RendererComponent& EntityManager::GetComponent<RendererComponent>(int entity) {
@@ -172,6 +196,11 @@ ColliderComponent& EntityManager::GetComponent<ColliderComponent>(int entity) {
 template<>
 ScriptComponent& EntityManager::GetComponent<ScriptComponent>(int entity) {
 	return scripts[entity_to_script_idx[entity]];
+}
+
+template<>
+VelocityComponent& EntityManager::GetComponent<VelocityComponent>(int entity) {
+	return velocities[entity_to_velocity_idx[entity]];
 }
 
 
@@ -195,6 +224,12 @@ const ColliderComponent& EntityManager::GetComponent<ColliderComponent>(int enti
 template<>
 const ScriptComponent& EntityManager::GetComponent<ScriptComponent>(int entity) const {
 	return scripts[entity_to_script_idx[entity]];
+}
+
+
+template<>
+const VelocityComponent& EntityManager::GetComponent<VelocityComponent>(int entity) const {
+	return velocities[entity_to_velocity_idx[entity]];
 }
 
 
@@ -242,6 +277,16 @@ bool EntityManager::HasComponent<ScriptComponent>(int entity) const {
 	return (mask & target) == target;
 }
 
+
+template<>
+bool EntityManager::HasComponent<VelocityComponent>(int entity) const {
+	if (entity < 0 || entity >= entity_to_mask.size()) return false;
+
+	const uint64_t mask = entity_to_mask[entity];
+	const uint64_t target = static_cast<uint64_t>(ComponentBit::VELOCITY);
+
+	return (mask & target) == target;
+}
 
 
 int EntityManager::GetAllEntitiesCount() const {

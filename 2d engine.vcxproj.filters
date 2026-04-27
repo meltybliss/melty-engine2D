@@ -120,6 +120,12 @@
     <ClCompile Include="src\engine\TextureAPI.cpp">
       <Filter>ソース ファイル\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\MovementSystem.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GCManager.cpp">
+      <Filter>ソース ファイル\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="third_party\glad\glad.h">
@@ -288,6 +294,21 @@
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
     <ClInclude Include="include\engine\KeyCode.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\MovementSystem.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\VelocityComponent.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\GCManager.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\GCObject.h">
+      <Filter>ヘッダー ファイル\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\engine\GCMacros.h">
       <Filter>ヘッダー ファイル\engine</Filter>
     </ClInclude>
   </ItemGroup>

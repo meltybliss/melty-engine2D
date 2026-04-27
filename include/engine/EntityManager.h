@@ -4,6 +4,7 @@
 #include "TransformComp.h"
 #include "ColliderComp.h"
 #include "ScriptComponent.h"
+#include "VelocityComponent.h"
 #include <vector>
 #include <unordered_map>
 #include <stdint.h>
@@ -17,6 +18,7 @@ enum class ComponentBit {
 	TRANSFORM = 1ULL << 1,
 	COLLIDER = 1ULL << 2,
 	SCRIPT = 1ULL << 3,
+	VELOCITY = 1ULL << 4,
 
 };
 
@@ -88,11 +90,13 @@ private:
 	std::vector<int> entity_to_transform_idx;
 	std::vector<int> entity_to_collider_idx;
 	std::vector<int> entity_to_script_idx;
+	std::vector<int> entity_to_velocity_idx;
 
 	std::vector<RendererComponent> rendererComps;
 	std::vector<TransformComponent> transforms;
 	std::vector<ColliderComponent> colliders;
 	std::vector<ScriptComponent> scripts;
+	std::vector<VelocityComponent> velocities;
 
 
 	int nextEntityId = 0;

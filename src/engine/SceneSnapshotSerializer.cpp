@@ -43,6 +43,12 @@ SceneSnapshot SceneSnapshotSerializer::Build(const BaseScene& scene) {
 			}
 		}
 
+		if (em.HasComponent<VelocityComponent>(i)) {
+			entitySnap.hasVelocity = true;
+
+			entitySnap.velocityCmp = em.GetComponent<VelocityComponent>(i);
+		}
+
 		sceneSnap.entities.push_back(entitySnap);
 
 	}
@@ -101,6 +107,11 @@ void SceneSnapshotSerializer::Restore(BaseScene& scene, const SceneSnapshot& sna
 			
 			sc.started = false;
 
+		}
+
+		if (entitySnap.hasVelocity) {
+			auto& cl = em.AddComponent<VelocityComponent>(e);
+			cl = entitySnap.velocityCmp;
 		}
 
 	}
