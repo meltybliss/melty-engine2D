@@ -18,7 +18,7 @@ void GCManager::MarkObject(GCObject* obj) {
 
 	GCSlot* slot = FindSlot(obj);
 	if (!slot) return;
-	if (obj->IsPendingKill()) return;
+	if (slot->marked) return;
 
 	slot->marked = true;
 
@@ -63,7 +63,7 @@ void GCManager::MarkRoots() {
 void GCManager::Collect() {
 	ClearMark();
 	MarkRoots();
-
+	Sweep();
 }
 
 GCSlot* GCManager::FindSlot(GCObject* obj) {

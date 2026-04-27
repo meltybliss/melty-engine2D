@@ -5,16 +5,24 @@ class GCManager;
 class GCObject {
 public:
 
-	virtual void AddReferencedObjects(GCManager& gcm) {};
+	virtual ~GCObject() = default;
 
-	bool IsPendingKill() const {
-		return isPendingKill;
+	GCObject* GetOwner() const {
+		return owner;
 	}
 
-	void MarkPendingKill() {
-		isPendingKill = true;
+	void SetOwner(GCObject* owner) {
+		this->owner = owner;
+	}
+
+	virtual void AddReferencedObjects(GCManager& gcm) {};
+
+	virtual void DestroyObject(GCObject*& object) {
+		if (object) {
+			object = nullptr;
+		}
 	}
 
 private:
-	bool isPendingKill = false;
+	GCObject* owner = nullptr;
 };

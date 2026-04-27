@@ -17,7 +17,7 @@ public:
 	GCManager();
 
 	template<typename T, typename... Args>
-	T* NewObject(Args&&... args) {
+	T* NewObject(GCObject* owner, Args&&... args) {
 		static_assert(std::is_base_of_v<GCObject, T>, "T must derive from GCObject");
 
 		T* obj = new T(std::forward<Args>(args)...);
@@ -27,6 +27,7 @@ public:
 		slot.object = obj;
 
 		allObjects.push_back(slot);
+		obj->SetOwner(owner);
 
 		return obj;
 
@@ -34,17 +35,27 @@ public:
 
 	template<typename T, typename... Args>
 	T* NewSceneObject(Args&&... args) {
-		T* obj = NewObject<T>(args);
+		T* obj = NewObject<T>(gSceneGCScope, std::forward<Args>(args)...);
 		if (!obj) return nullptr;
-		gSceneGCScope->sceneObjects.push_back(obj);
+
+		if (gSceneGCScope) {
+			gSceneGCScope->sceneObjects.push_back(obj);
+		}
 
 		return obj;
-
 	}
 
 
 	void Destroy(GCObject*& obj) {//the users themselves call this
-		obj = nullptr;
+		if (!obj) return;
+
+		GCObject* owner = obj->GetOwner();
+		if (owner) {
+			owner->DestroyObject(obj);
+		}
+
+		owner = nullptr;
+
 	}
 
 
